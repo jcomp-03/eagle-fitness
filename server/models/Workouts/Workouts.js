@@ -3,12 +3,16 @@ const {Schema, model} = require('mongoose')
 const WorkoutSchema = new Schema( 
   {
     name: {
-      type: Schema,
+      type: String,
       required: true
     },
     workoutType: {
       type: String,
       required: true
+    },
+    workoutDescription: {
+      type: String,
+      required: true,
     }
   }
 )

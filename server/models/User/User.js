@@ -1,45 +1,49 @@
 const { Schema, model } = require("mongoose");
-const bcrypt = require('bcrypt')
-const Meal = require('../Meals/Meals')
+const bcrypt = require("bcrypt");
+const Meal = require("../Meals/Meals");
+const Workout = require('../Workouts/Workouts')
 
 // add workout subdocument to this
 const UserSchema = new Schema({
   firstName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   lastName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
   username: {
     type: String,
     required: true,
+    unique: true,
     trim: true,
   },
   email: {
     type: String,
     required: true,
     trim: true,
+    unique: true,
     validate: {
-      function(input) {
+      validator: function (input) {
         return input.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
       },
-      message: (props) => `${props} is not a valid email address`,
+      message: (input) => `"${input.value}" is not a valid email address`,
     },
   },
   password: {
     type: String,
     required: true,
-    minlength: 5
+    minlength: 5,
   },
-  meals: [Meal.schema]
+  meals: [Meal.schema],
+  workouts: [Workout.schema]
 });
 
-UserSchema.pre('save', async function(next) {
-  if (this.isNew || this.isModified('password')) {
+UserSchema.pre("save", async function (next) {
+  if (this.isNew || this.isModified("password")) {
     const saltRounds = 10;
     this.password = await bcrypt.hash(this.password, saltRounds);
   }
@@ -47,6 +51,10 @@ UserSchema.pre('save', async function(next) {
   next();
 });
 
-const User = model('user', UserSchema)
+UserSchema.methods.isCorrectPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
 
-module.exports = User
+const User = model("user", UserSchema);
+
+module.exports = User;
