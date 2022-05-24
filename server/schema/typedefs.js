@@ -8,6 +8,7 @@ const typeDefs = gql`
     username: String
     email: String
     meals: [Meal]
+    workouts: [Workout]
   }
 
   type Meal {
@@ -17,8 +18,11 @@ const typeDefs = gql`
     ingredients: [String]
   }
 
-  type Ingredients {
-    ingredientName: String
+  type Workout {
+    _id: ID
+    name: String
+    workoutType: String
+    workoutDescription: String
   }
 
   type Query {
@@ -26,6 +30,7 @@ const typeDefs = gql`
     us: [User]
     meal(_id: ID!): Meal
     meals: [Meal]
+    workouts: [Workout]
   }
 
   type Mutation {
@@ -40,15 +45,23 @@ const typeDefs = gql`
 
     # [mutation for logging in goes here]
 
-    addIngredient(ingredientName: String!): Ingredients
-
-    # Must add ingredients before meal
-
-    addMeal(mealName: String!, totalCalories: Int!, ingredients: [String!]): Meal
+    addMeal(
+      mealName: String!
+      totalCalories: Int!
+      ingredients: [String!]
+    ): Meal
 
     # Must add meal before UserMeal
 
     addUserMeal(userId: ID!, meal: ID!): User
+
+    addWorkout(
+      name: String!
+      workoutType: String!
+      workoutDescription: String!
+    ): Workout
+
+    addUserWorkout(userId: ID!, workout: ID!): User
   }
 `;
 

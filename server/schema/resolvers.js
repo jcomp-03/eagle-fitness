@@ -18,6 +18,11 @@ const resolvers = {
     },
     meals: async() => {
       return Meal.find()
+    },
+    workouts: async() => {
+      const workout = await Workout.find() 
+      console.log(workout)
+      return workout
     }
   },
   Mutation: {
@@ -39,6 +44,20 @@ const resolvers = {
       )
       console.log(newUserMeal)
       return newUserMeal
+    },
+    addWorkout: async(parent, args) => {
+      const newWorkout = await Workout.create(args)
+      return newWorkout
+    },
+    addUserWorkout: async(parent, args) => {
+      const workout = await Workout.findById({_id: args.workout})
+      const newUserWorkout = await User.findByIdAndUpdate(
+        {_id: args.userId},
+        {$addToSet: {workouts: workout}},
+        {new: true, runValidators: true}
+      )
+      console.log(newUserWorkout)
+      return newUserWorkout
     }
   }
 }

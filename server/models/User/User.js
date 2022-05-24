@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 const Meal = require("../Meals/Meals");
+const Workout = require('../Workouts/Workouts')
 
 // add workout subdocument to this
 const UserSchema = new Schema({
@@ -38,6 +39,7 @@ const UserSchema = new Schema({
     minlength: 5,
   },
   meals: [Meal.schema],
+  workouts: [Workout.schema]
 });
 
 UserSchema.pre("save", async function (next) {
