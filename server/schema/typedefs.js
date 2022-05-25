@@ -44,6 +44,7 @@ const typeDefs = gql`
     ): User
 
     # [mutation for logging in goes here]
+    login(email: String!, password: String!): User
 
     addMeal(
       mealName: String!
