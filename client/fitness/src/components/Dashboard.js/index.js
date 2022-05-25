@@ -1,8 +1,39 @@
-import React from "react";
-import Chart from "react-apexcharts";
-import bootstrap from "bootstrap";
+import React, { useState, useEffect, Component } from 'react';
 
-function Dashboard() {
+import Chart from "react-apexcharts";
+
+class Dashboard extends Component {
+
+  constructor(props) {
+    super(props);
+
+  this.state = {     
+    options: {
+      chart: {
+        id: "basic-bar"
+      },
+      xaxis: {
+        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+      }
+    },
+    series: [
+      {
+        name: "series-1",
+        data: [30, 40, 45, 50, 49, 60, 70, 91]
+      }
+    ]
+  };
+  }
+
+  // const [chartState, setChartState] = useState(initialChartState)
+
+  // useEffect(() => {
+  //   fetch('/api/dashboard/chart_series')
+  //   .then(res => res.json)
+  //   .then(res => setChartState({...chartState, series: res.data}))
+  // }, [])
+ 
+render () {
   return (
     <div className="container-fluid">
       <div className="row">
@@ -272,7 +303,14 @@ function Dashboard() {
               </div>
             </div>
             <div className="card-body pt-0 pb-0">
-              <div id="chartBar"></div>
+              <div id="chartBar">
+              <Chart
+              options={this.state.options}
+              series={this.state.series}
+              type="line"
+              width="500"
+            />
+              </div>
             </div>
           </div>
         </div>
@@ -486,6 +524,7 @@ function Dashboard() {
       </div>
     </div>
   );
+}
 }
 
 export default Dashboard;
