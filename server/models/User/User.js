@@ -58,3 +58,4 @@ UserSchema.methods.isCorrectPassword = async function (password) {
 const User = model("user", UserSchema);
 
 module.exports = User;
+

@@ -1,4 +1,5 @@
 const {Workout, User, Meal} = require('../models')
+const {AuthenticationError} = require('apollo-server-express')
 
 const resolvers = {
   // eventually these will be changed to incorporate tokens from headers instead of args.userId
@@ -29,6 +30,24 @@ const resolvers = {
     addUser: async(parent, args) => {
       const newUser = await User.create(args)
       return newUser
+    },
+    login: async(parent, args) => {
+      const loginUser = await User.findOne({email: args.email})
+      // console.log(loginUser)
+      if (!loginUser) {
+        throw new AuthenticationError('Incorrect Credentials')
+      }
+
+      const auth = await loginUser.isCorrectPassword(args.password)
+      console.log(auth)
+
+      if (!auth) {
+        throw new AuthenticationError('Incorrect Credentials')
+      }
+
+      // remember to remove 1 and 2
+
+      return loginUser
     },
     // MUST be done in the order: addMeal -> addUserMeal
     addMeal: async(parent, args) => {
