@@ -3,7 +3,6 @@ const bcrypt = require("bcrypt");
 const Meal = require("../Meals/Meals");
 const Workout = require('../Workouts/Workouts')
 
-// add workout subdocument to this
 const UserSchema = new Schema({
   firstName: {
     type: String,
