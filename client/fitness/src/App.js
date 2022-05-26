@@ -1,5 +1,8 @@
 // import logo from "./logo.svg";
 import "./App.css";
+import React from 'react';
+import { ReactDOM } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import Dashboard from "./components/Dashboard.js";
 import Logo from "./components/Logo";
 import Header from "./components/Header";
@@ -30,6 +33,7 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
 
 function App() {
   return (
