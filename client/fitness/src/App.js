@@ -1,12 +1,16 @@
-// import logo from "./logo.svg";
 import "./App.css";
 import React from 'react';
-import { ReactDOM } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import Dashboard from "./components/Dashboard.js";
+import { ReactDOM } from "react";
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+} from "react-router-dom";
+import Dashboard from "./components/Dashboard";
 import Logo from "./components/Logo";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import FitnessCalendar from "./components/FitnessCalendar";
 import {
   ApolloClient,
   InMemoryCache,
@@ -37,14 +41,22 @@ const client = new ApolloClient({
 
 function App() {
   return (
+    <BrowserRouter>
+      <div>
     <ApolloProvider client={client}>
       <div>
         <Logo />
         <Header />
         <Sidebar />
         <div className="content-body">
-          <Dashboard />
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/calendar" element={<FitnessCalendar />} />
+          <Route index element={<Dashboard />} />
+        </Routes>
         </div>
+      </div>
+    </BrowserRouter>
       </div>
     </ApolloProvider>
   );
