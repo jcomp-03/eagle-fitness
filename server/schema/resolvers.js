@@ -3,11 +3,8 @@ const { AuthenticationError } = require("apollo-server-express");
 const { signToken } = require("../utils/auth");
 
 const resolvers = {
-  // eventually these will be changed to incorporate tokens from headers instead of args.userId
-
   Query: {
     me: async (parent,__, context) => {
-      console.log(context.user)
       if (context.user) {
         // Must use findById to find a single entry
         const userData = await User.findById({ _id: context.user._id });
@@ -37,14 +34,11 @@ const resolvers = {
     },
     login: async (parent, args) => {
       const user = await User.findOne({ email: args.email });
-      // console.log(user)
       if (!user) {
         throw new AuthenticationError("Incorrect Credentials");
       }
 
       const auth = await user.isCorrectPassword(args.password);
-      // console.log(auth);
-
       if (!auth) {
         throw new AuthenticationError("Incorrect Credentials");
       }
@@ -69,7 +63,6 @@ const resolvers = {
           { $addToSet: { meals: meal } },
           { new: true, runValidators: true }
         );
-        console.log(newUserMeal);
         return newUserMeal;
       }
       throw new AuthenticationError("You must be logged in!");
@@ -86,7 +79,6 @@ const resolvers = {
           { $addToSet: { workouts: workout } },
           { new: true, runValidators: true }
         );
-        console.log(newUserWorkout);
         return newUserWorkout;
       }
       throw new AuthenticationError("You must be logged in!");
