@@ -13,7 +13,7 @@ function Header() {
               <li className="nav-item dropdown header-profile">
                 <a
                   className="nav-link"
-                  href="javascript:void(0)"
+                  href="#"
                   role="button"
                   data-toggle="dropdown"
                 >
@@ -38,7 +38,7 @@ function Header() {
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
-                      strokLinejoin="round"
+                      stroklinejoin="round"
                     >
                       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                       <circle cx="12" cy="7" r="4"></circle>
@@ -56,8 +56,8 @@ function Header() {
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeinejoin="round"
                     >
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                       <polyline points="22,6 12,13 2,6"></polyline>
@@ -75,8 +75,8 @@ function Header() {
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                       <polyline points="16 17 21 12 16 7"></polyline>
