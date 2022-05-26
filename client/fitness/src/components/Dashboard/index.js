@@ -254,10 +254,10 @@ render () {
                   </svg>
                 </button>
                 <div className="dropdown-menu dropdown-menu-right">
-                  <a className="dropdown-item" href="javascript:void(0);">
+                  <a className="dropdown-item" href="#">
                     Cycling
                   </a>
-                  <a className="dropdown-item" href="javascript:void(0);">
+                  <a className="dropdown-item" href="#">
                     Workouts
                   </a>
                 </div>
@@ -355,13 +355,13 @@ render () {
                       Weekly
                     </button>
                     <div className="dropdown-menu dropdown-menu-right">
-                      <a className="dropdown-item" href="javascript:void(0);">
+                      <a className="dropdown-item" href="#">
                         Cycling
                       </a>
-                      <a className="dropdown-item" href="javascript:void(0);">
+                      <a className="dropdown-item" href="#">
                         Link 2
                       </a>
-                      <a className="dropdown-item" href="javascript:void(0);">
+                      <a className="dropdown-item" href="#">
                         Link 3
                       </a>
                     </div>
