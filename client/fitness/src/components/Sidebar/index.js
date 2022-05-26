@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Sidebar() {
   return (
@@ -6,31 +7,31 @@ function Sidebar() {
       <div className="deznav-scroll">
         <ul className="metismenu" id="menu">
           <li>
-            <a href="javascript:void()" aria-expanded="false">
+            <Link to="/dashboard">
               <i className="flaticon-381-networking"></i>
               <span className="nav-text">Dashboard</span>
-            </a>
+            </Link>
           </li>
           <li>
-            <a href="javascript:void()" aria-expanded="false">
+            <a href="#" aria-expanded="false">
               <i className="flaticon-381-television"></i>
               <span className="nav-text">Workout Plan</span>
             </a>
           </li>
           <li>
-            <a href="javascript:void()" aria-expanded="false">
+            <a href="#" aria-expanded="false">
               <i className="flaticon-381-controls-3"></i>
               <span className="nav-text">Workout Statistics</span>
             </a>
           </li>
           <li>
-            <a href="javascript:void()" aria-expanded="false">
-              <i className="flaticon-381-internet"></i>
+          <Link to="/calendar">
+              <i className="flaticon-381-networking"></i>
               <span className="nav-text">Calendar</span>
-            </a>
+          </Link>
           </li>
           <li>
-            <a href="javascript:void()" aria-expanded="false">
+            <a href="#" aria-expanded="false">
               <i className="flaticon-381-television"></i>
               <span className="nav-text">Meal Plan</span>
             </a>
