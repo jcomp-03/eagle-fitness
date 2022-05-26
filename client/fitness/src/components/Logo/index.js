@@ -10,14 +10,6 @@ function Logo() {
         <img className="logo-compact" src="./images/logo-text.png" alt="" />
         <img className="brand-title" src="./images/logo-text.png" alt="" />
       </a>
-
-      <div className="nav-control">
-        <div className="hamburger">
-          <span className="line"></span>
-          <span className="line"></span>
-          <span className="line"></span>
-        </div>
-      </div>
     </div>
   );
 }
