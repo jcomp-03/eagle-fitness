@@ -18,8 +18,6 @@ const resolvers = {
       return User.find();
     },
     meals: async () => {
-
-      Meal.de
       return Meal.find();
     },
     workouts: async () => {
@@ -56,6 +54,9 @@ const resolvers = {
     },
     addUserMeal: async (parent, args) => {
       const meal = await Meal.findById({ _id: args.meal });
+      if (!meal) {
+        throw new Error("This meal does not exist inthe database")
+      }
       const newUserMeal = await User.findByIdAndUpdate(
         { _id: args.userId },
         { $addToSet: { meals: meal } },
