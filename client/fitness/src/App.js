@@ -52,7 +52,6 @@ function App() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/calendar" element={<FitnessCalendar />} />
-          <Route index element={<Dashboard />} />
         </Routes>
         </div>
       </div>
