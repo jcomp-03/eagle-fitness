@@ -9752,7 +9752,7 @@ a {
   display: block; }
 
 [data-sidebar-style="compact"][data-layout="vertical"] .nav-header .brand-title {
-  /* display: none; */ }
+  display: none; }
 [data-sidebar-style="compact"][data-layout="vertical"] .nav-header .logo-compact {
   max-width: 75px; }
 
