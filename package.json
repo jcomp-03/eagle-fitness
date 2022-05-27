@@ -23,5 +23,7 @@
   "homepage": "https://github.com/Alexnj1/eagle-fitness#readme",
   "dependencies": {
     "concurrently": "^7.2.1"
+  },
+  "devDependencies": {
   }
 }

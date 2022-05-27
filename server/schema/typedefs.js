@@ -33,6 +33,11 @@ const typeDefs = gql`
     workouts: [Workout]
   }
 
+  type Auth {
+    user: User
+    token: ID
+  }
+
   type Mutation {
     # mutation for signing up
     addUser(
@@ -43,7 +48,7 @@ const typeDefs = gql`
       password: String!
     ): User
 
-    # [mutation for logging in goes here]
+    login(email: String!, password: String!): Auth
 
     addMeal(
       mealName: String!
