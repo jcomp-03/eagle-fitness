@@ -56,9 +56,9 @@ function App() {
         </Routes>
         </div>
       </div>
-    </BrowserRouter>
-      </div>
     </ApolloProvider>
+      </div>
+    </BrowserRouter>
   );
 }
 
