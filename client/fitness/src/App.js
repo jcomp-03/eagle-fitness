@@ -1,11 +1,7 @@
 import "./App.css";
-import React from 'react';
+import React from "react";
 import { ReactDOM } from "react";
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import Logo from "./components/Logo";
 import Header from "./components/Header";
@@ -38,24 +34,23 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-
 function App() {
   return (
     <BrowserRouter>
       <div>
-    <ApolloProvider client={client}>
-      <div>
-        <Logo />
-        <Header />
-        <Sidebar />
-        <div className="content-body">
-        <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/calendar" element={<FitnessCalendar />} />
-        </Routes>
-        </div>
-      </div>
-    </ApolloProvider>
+        <ApolloProvider client={client}>
+          <div>
+            <Logo />
+            <Header />
+            <Sidebar />
+            <div className="content-body">
+              <Routes>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/calendar" element={<FitnessCalendar />} />
+              </Routes>
+            </div>
+          </div>
+        </ApolloProvider>
       </div>
     </BrowserRouter>
   );
