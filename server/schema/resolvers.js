@@ -30,7 +30,8 @@ const resolvers = {
   Mutation: {
     addUser: async (parent, args) => {
       const newUser = await User.create(args);
-      return newUser;
+      const token = signToken(newUser)
+      return {token, newUser};
     },
     login: async (parent, args) => {
       const user = await User.findOne({ email: args.email });

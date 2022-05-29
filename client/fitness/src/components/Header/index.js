@@ -1,13 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
-function Header() {
+function Header({currentPage}) {
   return (
     <div className="header">
       <div className="header-content">
         <nav className="navbar navbar-expand">
           <div className="collapse navbar-collapse justify-content-between">
             <div className="header-left">
-              <div className="dashboard_bar">Dashboard</div>
+              <div className="dashboard_bar">{currentPage}</div>
             </div>
             <ul className="navbar-nav header-right">
               <li className="nav-item dropdown header-profile">
@@ -26,7 +27,7 @@ function Header() {
                   </div>
                 </a>
                 <div className="dropdown-menu dropdown-menu-right">
-                  <a href="./app-profile.html" className="dropdown-item ai-icon">
+                  <Link className="dropdown-item ai-icon" to='/profile'>
                     <svg
                       id="icon-user1"
                       xmlns="http://www.w3.org/2000/svg"
@@ -43,8 +44,8 @@ function Header() {
                       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                       <circle cx="12" cy="7" r="4"></circle>
                     </svg>
-                    <span className="ml-2">Profile </span>
-                  </a>
+                    <span className="ml-2">Profile</span>
+                  </Link>
                   <a href="./email-inbox.html" className="dropdown-item ai-icon">
                     <svg
                       id="icon-inbox"

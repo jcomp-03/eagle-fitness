@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useState } from "react";
 import { ReactDOM } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
@@ -36,19 +36,20 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [currentPage, setCurrentPage] = useState("")
   return (
     <BrowserRouter>
       <div>
         <ApolloProvider client={client}>
           <div>
             <Logo />
-            <Header />
+            <Header currentPage={currentPage}/>
             <Sidebar />
             <div className="content-body">
               <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard setCurrentPage={setCurrentPage}/>} />
                 <Route path="/calendar" element={<FitnessCalendar />} />
-                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profile" element={<ProfilePage setCurrentPage={setCurrentPage}/>} />
               </Routes>
             </div>
           </div>

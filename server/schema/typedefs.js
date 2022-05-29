@@ -46,7 +46,7 @@ const typeDefs = gql`
       username: String!
       email: String!
       password: String!
-    ): User
+    ): Auth
 
     login(email: String!, password: String!): Auth
 

@@ -3,6 +3,7 @@ import React, { useState, useEffect, Component } from 'react';
 import Chart from "react-apexcharts";
 
 class Dashboard extends Component {
+  
 
   constructor(props) {
     super(props);
@@ -23,6 +24,7 @@ class Dashboard extends Component {
       }
     ]
   };
+  this.props.setCurrentPage("Dashboard")
   }
 
   // const [chartState, setChartState] = useState(initialChartState)
