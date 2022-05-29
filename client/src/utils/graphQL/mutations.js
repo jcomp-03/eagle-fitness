@@ -1,3 +1,4 @@
+<<<<<<< HEAD:client/src/utils/graphQL/mutations.js
 import { gql } from "@apollo/client";
 
 // to be modified to handle JWT
@@ -132,3 +133,107 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+=======
+import { gql } from "@apollo/client";
+
+// to be modified to handle JWT
+export const LOGIN = gql`
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      firstName
+      lastName
+      username
+      email
+    }
+  }
+`;
+// to be used in user sign up
+export const ADD_USER = gql`
+  mutation addUser(
+    $firstName: String!
+    $lastName: String!
+    $username: String!
+    $email: String!
+    $password: String!
+  ) {
+    addUser(
+      firstName: $firstName
+      lastName: $lastName
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      _id
+      firstName
+      lastName
+      username
+      email
+    }
+  }
+`;
+// adding meals to the database taken from API data, must be done before ADD_USER_MEAL
+export const ADD_MEAL = gql`
+  mutation addMeal(
+    $mealName: String!
+    $totalCalories: Int!
+    $ingredients: [String!]
+  ) {
+    addMeal(
+      mealName: $mealName
+      totalCalories: $totalCalories
+      ingredients: $ingredients
+    ) {
+      _id
+      mealName
+      totalCalories
+      ingredients
+    }
+  }
+`;
+export const ADD_USER_MEAL = gql`
+  mutation addUserMeal($userId: ID!, $meal: ID!) {
+    addUserMeal(userId: $userId, meal: $meal) {
+      username
+      email
+      meals {
+        mealName
+        totalCalories
+        ingredients
+      }
+    }
+  }
+`;
+export const ADD_WORKOUT = gql`
+  mutation addWorkout(
+    $name: String!
+    $workoutDescription: String!
+    $workoutType: String!
+  ) {
+    addWorkout(
+      name: $name
+      workoutDescription: $workoutDescription
+      workoutType: $workoutType
+    ) {
+      _id
+      name
+      workoutType
+      workoutDescription
+    }
+  }
+`;
+export const ADD_USER_WORKOUT = gql`
+  mutation addUserWorkout($userId: ID!, $workout: ID!) {
+    addUserWorkout(userId: $userId, workout: $workout) {
+      username
+      email
+      meals {
+        mealName
+      }
+      workouts {
+        name
+        workoutDescription
+      }
+    }
+  }
+`;
+>>>>>>> dev-lp:client/fitness/src/utils/graphQL/mutations.js

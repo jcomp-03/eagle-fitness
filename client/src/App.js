@@ -1,11 +1,22 @@
+import ProfilePage from "./pages/profile";
+import LoginPage from "./pages/login";
+import SignUp from "./pages/signup";
+import WorkoutStatistics from "./components/WorkoutStatistics";
+import React, {useState} from 'react';
+import './App.css';
+import Dashboard from './components/Dashboard';
+import Logo from './components/Logo';
+import Header from './components/Header';
+import Sidebar from './components/Sidebar';
+import Landing from './components/LandingPage';
+import './assets/base.scss';
 import "./App.css";
-import React, { useState } from "react";
-// import { ReactDOM } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
-import Logo from "./components/Logo";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+} from "react-router-dom";
 import FitnessCalendar from "./components/FitnessCalendar";
 import {
   ApolloClient,
@@ -14,10 +25,252 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import ProfilePage from "./pages/profile";
-import LoginPage from "./pages/login";
-import SignUp from "./pages/signup";
-import WorkoutStatistics from "./components/WorkoutStatistics";
+
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  fab,
+  faFacebook,
+  faTwitter,
+  faVuejs,
+  faReact,
+  faHtml5,
+  faGoogle,
+  faInstagram,
+  faPinterest,
+  faYoutube,
+  faDiscord,
+  faSlack,
+  faDribbble,
+  faGithub
+} from '@fortawesome/free-brands-svg-icons';
+import {
+  far,
+  faSquare,
+  faLifeRing,
+  faCheckCircle,
+  faTimesCircle,
+  faDotCircle,
+  faThumbsUp,
+  faComments,
+  faFolderOpen,
+  faTrashAlt,
+  faFileImage,
+  faFileArchive,
+  faCommentDots,
+  faFolder,
+  faKeyboard,
+  faCalendarAlt,
+  faEnvelope,
+  faAddressCard,
+  faMap,
+  faObjectGroup,
+  faImages,
+  faUser,
+  faLightbulb,
+  faGem,
+  faClock,
+  faUserCircle,
+  faQuestionCircle,
+  faBuilding,
+  faBell,
+  faFileExcel,
+  faFileAudio,
+  faFileVideo,
+  faFileWord,
+  faFilePdf,
+  faFileCode,
+  faFileAlt,
+  faEye,
+  faChartBar
+} from '@fortawesome/free-regular-svg-icons';
+import {
+  fas,
+  faAngleDoubleRight,
+  faAngleDoubleLeft,
+  faSmile,
+  faHeart,
+  faBatteryEmpty,
+  faBatteryFull,
+  faChevronRight,
+  faSitemap,
+  faPrint,
+  faMapMarkedAlt,
+  faTachometerAlt,
+  faAlignCenter,
+  faExternalLinkAlt,
+  faShareSquare,
+  faInfoCircle,
+  faSync,
+  faQuoteRight,
+  faStarHalfAlt,
+  faShapes,
+  faCarBattery,
+  faTable,
+  faCubes,
+  faPager,
+  faCameraRetro,
+  faBomb,
+  faNetworkWired,
+  faBusAlt,
+  faBirthdayCake,
+  faEyeDropper,
+  faUnlockAlt,
+  faDownload,
+  faAward,
+  faPlayCircle,
+  faReply,
+  faUpload,
+  faBars,
+  faEllipsisV,
+  faSave,
+  faSlidersH,
+  faCaretRight,
+  faChevronUp,
+  faPlus,
+  faLemon,
+  faChevronLeft,
+  faTimes,
+  faChevronDown,
+  faFilm,
+  faSearch,
+  faEllipsisH,
+  faCog,
+  faArrowsAltH,
+  faPlusCircle,
+  faAngleRight,
+  faAngleUp,
+  faAngleLeft,
+  faAngleDown,
+  faArrowUp,
+  faArrowDown,
+  faArrowRight,
+  faArrowLeft,
+  faStar,
+  faSignOutAlt,
+  faLink
+} from '@fortawesome/free-solid-svg-icons';
+library.add(
+  far,
+  faSquare,
+  faLifeRing,
+  faCheckCircle,
+  faTimesCircle,
+  faDotCircle,
+  faThumbsUp,
+  faComments,
+  faFolderOpen,
+  faTrashAlt,
+  faFileImage,
+  faFileArchive,
+  faCommentDots,
+  faFolder,
+  faKeyboard,
+  faCalendarAlt,
+  faEnvelope,
+  faAddressCard,
+  faMap,
+  faObjectGroup,
+  faImages,
+  faUser,
+  faLightbulb,
+  faGem,
+  faClock,
+  faUserCircle,
+  faQuestionCircle,
+  faBuilding,
+  faBell,
+  faFileExcel,
+  faFileAudio,
+  faFileVideo,
+  faFileWord,
+  faFilePdf,
+  faFileCode,
+  faFileAlt,
+  faEye,
+  faChartBar
+);
+library.add(
+  fab,
+  faFacebook,
+  faTwitter,
+  faVuejs,
+  faReact,
+  faHtml5,
+  faGoogle,
+  faInstagram,
+  faPinterest,
+  faYoutube,
+  faDiscord,
+  faSlack,
+  faDribbble,
+  faGithub
+);
+library.add(
+  fas,
+  faAngleDoubleRight,
+  faAngleDoubleLeft,
+  faSmile,
+  faHeart,
+  faBatteryEmpty,
+  faBatteryFull,
+  faChevronRight,
+  faSitemap,
+  faPrint,
+  faMapMarkedAlt,
+  faTachometerAlt,
+  faAlignCenter,
+  faExternalLinkAlt,
+  faShareSquare,
+  faInfoCircle,
+  faSync,
+  faQuoteRight,
+  faStarHalfAlt,
+  faShapes,
+  faCarBattery,
+  faTable,
+  faCubes,
+  faPager,
+  faCameraRetro,
+  faBomb,
+  faNetworkWired,
+  faBusAlt,
+  faBirthdayCake,
+  faEyeDropper,
+  faUnlockAlt,
+  faDownload,
+  faAward,
+  faPlayCircle,
+  faReply,
+  faUpload,
+  faBars,
+  faEllipsisV,
+  faSave,
+  faSlidersH,
+  faCaretRight,
+  faChevronUp,
+  faPlus,
+  faLemon,
+  faChevronLeft,
+  faTimes,
+  faChevronDown,
+  faFilm,
+  faSearch,
+  faEllipsisH,
+  faCog,
+  faArrowsAltH,
+  faPlusCircle,
+  faAngleRight,
+  faAngleUp,
+  faAngleLeft,
+  faAngleDown,
+  faArrowUp,
+  faArrowDown,
+  faArrowRight,
+  faArrowLeft,
+  faStar,
+  faSignOutAlt,
+  faLink
+);
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -46,6 +299,7 @@ function App() {
         <BrowserRouter>
           <div>
             <Routes>
+              <Route path="/landing" element={<Landing />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignUp />}></Route>
               <Route
