@@ -303,7 +303,7 @@ function App() {
           <Route path="/landing" element={<Landing />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/calendar" element={<FitnessCalendar />} />
-          <Route index element={<Dashboard />} />
+          <Route index element={<Landing />} />
         </Routes>
         </div>
       </div>

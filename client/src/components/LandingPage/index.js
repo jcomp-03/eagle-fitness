@@ -44,7 +44,7 @@ const LandingPage = () => {
                       <div className="divider border-2 border-light my-5 border-light opacity-2 mx-auto rounded-circle w-50" />
                       <div>
                         <Button
-                          to="/Login"
+                          to="/login"
                           component={Link}
                           size="large"
                           color="primary"
@@ -57,7 +57,7 @@ const LandingPage = () => {
                           </span>
                         </Button>
                         <Button
-                          to=" /SignUp"
+                          to=" /signup"
                           size="large"
                           color="secondary"
                           variant="contained"
@@ -71,27 +71,9 @@ const LandingPage = () => {
                             Sign Up
                           </span>
                         </Button>
-                        <Button
-                          href="https://uifort.com/template/carolina-react-admin-dashboard-material-ui-pro"
-                          target="_blank"
-                          size="large"
-                          className="m-2 py-3 px-5"
-                          color="default"
-                          variant="contained"
-                          title="Learn more about Carolina React Admin Dashboard with Material-UI Free version">
-                          <span className="btn-wrapper--icon">
-                            <FontAwesomeIcon
-                              icon={['fas', 'external-link-alt']}
-                            />
-                          </span>
-                          <span className="btn-wrapper--label">
-                            PRO Version
-                          </span>
-                        </Button>
                       </div>
                       <small className="d-block pt-4">
-                        For a comprehensive list of components &amp; commercial
-                        licenses, we recommend the PRO version.
+                        "Soar like and Eagle"
                       </small>
                     </div>
                   </div>
