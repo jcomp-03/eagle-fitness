@@ -13,7 +13,7 @@ import "./App.css";
 //import { ReactDOM } from "react";
 import {
     BrowserRouter,
-    Router,
+    Routes,
     Route,
 } from "react-router-dom";
 import FitnessCalendar from "./components/FitnessCalendar";
@@ -299,12 +299,12 @@ function App() {
         <Header />
         <Sidebar />
         <div className="content-body">
-        <Route>
-          <Route path="/landing" element={<Landing/>} />
+        <Routes>
+          <Route path="/landing" element={<Landing />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/calendar" element={<FitnessCalendar />} />
-          <Route index element={<Landing />} />
-        </Route>
+          <Route index element={<Dashboard />} />
+        </Routes>
         </div>
       </div>
     </ApolloProvider>
