@@ -66,6 +66,11 @@ function App() {
                 path="/profile"
                 element={<ProfilePage setCurrentPage={setCurrentPage} />}
               />
+              <Route path="/calendar" element={<FitnessCalendar />} />
+              <Route
+                path="/workoutstatistics"
+                element={<WorkoutStatistics />}
+              />
             </Routes>
           </div>
         </BrowserRouter>
