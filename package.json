@@ -25,6 +25,7 @@
     "@wry/context": "^0.6.1",
     "@wry/equality": "^0.5.2",
     "@wry/trie": "^0.3.1",
+    "@mobiscroll/react": "https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.16.2.tgz",
     "concurrently": "^7.2.1"
   }
 }

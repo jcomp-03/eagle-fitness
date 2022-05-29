@@ -1,24 +1,68 @@
 import React, { useState } from "react";
-import Modal from 'react-bootstrap/Modal';
+import Modal from "react-bootstrap/Modal";
+import "@mobiscroll/react/dist/css/mobiscroll.min.css";
+import { Eventcalendar, getJson, toast } from "@mobiscroll/react";
+import moment from 'moment';
 
 function FitnessCalendar() {
+  const [myEvents, setEvents] = React.useState([]);
+
+//   React.useEffect(() => {
+//     getJson(
+//       "https://trial.mobiscroll.com/events/?vers=5",
+//       (events) => {
+//         setEvents(events);
+//       },
+//       "jsonp"
+//     );
+//   }, []);
+
+  const onEventClick = React.useCallback((event) => {
+    toast({
+      message: event.event.title,
+    });
+  }, []);
+
+  const view = React.useMemo(() => {
+    return {
+      calendar: { labels: true },
+    };
+  }, []);
+
   const [value, onChange] = useState(new Date());
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [newWorkout, setNewWorkout] = useState({ date: null, name: '', workoutType: '', workoutDescription: ''  })
+  const [newWorkout, setNewWorkout] = useState({
+    date: null,
+    name: "",
+    workoutType: "",
+    workoutDescription: "",
+  });
 
   const closeModal = () => setModalVisible(false);
   const showModal = () => setModalVisible(true);
 
   const handleNewEventClick = (val) => {
-      setNewWorkout({...newWorkout, date: val})
-      showModal();
-  }
+    setNewWorkout({ ...newWorkout, date: val.date });
+    showModal();
+  };
 
   const handleUpdateNewWorkout = (key, val) => {
-      const newWorkoutState = {...newWorkout}
-      newWorkoutState[key] = val;
-      setNewWorkout(newWorkoutState);
+    const newWorkoutState = { ...newWorkout };
+    newWorkoutState[key] = val;
+    setNewWorkout(newWorkoutState);
+  };
+
+  const handleSubmitNewWorkout = () => {
+      // TODO: Submit to backend
+      setEvents([...myEvents, {title: newWorkout.name, start: newWorkout.date, end: newWorkout.date}]);
+      closeModal();
+      setNewWorkout({
+        date: null,
+        name: "",
+        workoutType: "",
+        workoutDescription: "",
+      })
   }
 
   return (
@@ -68,6 +112,7 @@ function FitnessCalendar() {
                   </label>
                 </div>
                 <a
+                  onClick={handleNewEventClick}
                   href="#"
                   data-toggle="modal"
                   data-target="#add-category"
@@ -82,94 +127,50 @@ function FitnessCalendar() {
             </div>
           </div>
         </div>
-        <div className="Sample">
+        <div className="Sample col-9">
           <div className="calendar-container">
             <main className="calendar_container_content">
-              <Calendar 
-              onClickDay={handleNewEventClick}
-              onChange={onChange} 
-              value={value} />
+              <Eventcalendar
+                theme="ios"
+                themeVariant="light"
+                clickToCreate={true}
+                dragToCreate={false}
+                dragToMove={true}
+                dragToResize={false}
+                data={myEvents}
+                onCellClick={handleNewEventClick}
+                view={view}
+                onEventClick={onEventClick}
+              />
             </main>
           </div>
         </div>
 
         <Modal show={modalVisible} onHide={closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title><strong>Add New Event</strong></Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-            <input type="text" value={newWorkout.name} onChange={(e) => handleUpdateNewWorkout('name', e.target.value)} />
-            Woohoo, you're reading this text in a modal!
-        </Modal.Body>
-        <Modal.Footer>
-          <button className="btn btn-secondary" onClick={closeModal}>
-            Close
-          </button>
-          <button className="btn btn-primary" onClick={closeModal}>
-            Save Changes
-          </button>
-        </Modal.Footer>
-      </Modal>
-
-        <div className="modal fade none-border" id="add-category">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h4 className="modal-title">
-                  <strong>Add a category</strong>
-                </h4>
-              </div>
-              <div className="modal-body">
-                <form>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <label className="control-label">Category Name</label>
-                      <input
-                        className="form-control form-white"
-                        placeholder="Enter name"
-                        type="text"
-                        name="category-name"
-                      />
-                    </div>
-                    <div className="col-md-6">
-                      <label className="control-label">
-                        Choose Category Color
-                      </label>
-                      <select
-                        className="form-control form-white"
-                        data-placeholder="Choose a color..."
-                        name="category-color"
-                      >
-                        <option value="success">Success</option>
-                        <option value="danger">Danger</option>
-                        <option value="info">Info</option>
-                        <option value="pink">Pink</option>
-                        <option value="primary">Primary</option>
-                        <option value="warning">Warning</option>
-                      </select>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-default waves-effect"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger waves-effect waves-light save-category"
-                  data-dismiss="modal"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+          <Modal.Header closeButton>
+            <Modal.Title>
+              <strong>Add New Event</strong>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            New Workout: {newWorkout.date && moment(newWorkout.date).format('l')}
+            <br />
+            <label>Workout:</label>
+            <input
+              type="text"
+              value={newWorkout.name}
+              onChange={(e) => handleUpdateNewWorkout("name", e.target.value)}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <button className="btn btn-secondary" onClick={closeModal}>
+              Close
+            </button>
+            <button className="btn btn-primary" onClick={handleSubmitNewWorkout}>
+              Save Changes
+            </button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );

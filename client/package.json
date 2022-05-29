@@ -20,6 +20,7 @@
     "graphql": "^16.5.0",
     "install": "^0.13.0",
     "jwt-decode": "^3.1.2",
+    "moment": "^2.29.3",
     "npm": "^8.11.0",
     "react": "^18.1.0",
     "react-apexcharts": "^1.4.0",
