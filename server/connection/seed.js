@@ -59,6 +59,9 @@ db.once('open', async () => {
     username: "Pam_Pam",
     email: 'pamela@testmail.com',
     password: 'password12345',
+    workoutPersona: "Casual",
+    age: 22,
+    aboutMe: "Lorem ipsum dolor sit amet. Qui harum vel nulla amet non recusandae voluptatem! Vel numquam adipisci qui quam expedita cum mollitia beatae cum voluptas dolorum aut earum odio ad sequi dolore. Et ullam ipsam ut voluptatem molestiae id sequi tempore. Vel ipsum quia 33 sequi suscipit rem soluta atque At omnis nostrum eos unde quas nam odio unde."
   });
 
   await User.create({
@@ -66,7 +69,10 @@ db.once('open', async () => {
     lastName: 'Holt',
     username: "E_Holt",
     email: 'eholt@testmail.com',
-    password: 'password12345'
+    password: 'password12345',
+    workoutPersona: "Gym Rat",
+    age: 24,
+    aboutMe: "Lorem ipsum dolor sit amet. Qui harum vel nulla amet non recusandae voluptatem! Vel numquam adipisci qui quam expedita cum mollitia beatae cum voluptas dolorum aut earum odio ad sequi dolore. Et ullam ipsam ut voluptatem molestiae id sequi tempore. Vel ipsum quia 33 sequi suscipit rem soluta atque At omnis nostrum eos unde quas nam odio unde."
   });
 
   await User.create({
@@ -74,7 +80,10 @@ db.once('open', async () => {
     lastName: 'Noble-James',
     username: "Alex_NJ",
     email: 'alex@testmail.com',
-    password: 'password12345'
+    password: 'password12345',
+    workoutPersona: "Couch Potato",
+    age: 21,
+    aboutMe: "Lorem ipsum dolor sit amet. Qui harum vel nulla amet non recusandae voluptatem! Vel numquam adipisci qui quam expedita cum mollitia beatae cum voluptas dolorum aut earum odio ad sequi dolore. Et ullam ipsam ut voluptatem molestiae id sequi tempore. Vel ipsum quia 33 sequi suscipit rem soluta atque At omnis nostrum eos unde quas nam odio unde."
   });
 
   console.log('users seeded');

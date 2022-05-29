@@ -17,21 +17,30 @@ export const ADD_USER = gql`
     $firstName: String!
     $lastName: String!
     $username: String!
-    $email: String!
     $password: String!
+    $workoutPersona: String!
+    $age: Int!
+    $email: String!
+    $aboutMe: String!
   ) {
     addUser(
       firstName: $firstName
       lastName: $lastName
       username: $username
-      email: $email
       password: $password
+      workoutPersona: $workoutPersona
+      age: $age
+      email: $email
+      aboutMe: $aboutMe
     ) {
-      _id
-      firstName
-      lastName
-      username
-      email
+      token
+      user {
+        _id
+        firstName
+        lastName
+        username
+        email
+      }
     }
   }
 `;
@@ -97,6 +106,28 @@ export const ADD_USER_WORKOUT = gql`
         name
         workoutDescription
       }
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation updateUser(
+    $firstName: String
+    $lastName: String
+    $username: String
+    $email: String
+    $password: String
+  ) {
+    updateUser(
+      firstName: $firstName
+      lastName: $lastName
+      username: $username
+      email: $email
+      password: $password
+    ) {
+      email
+      firstName
+      lastName
     }
   }
 `;

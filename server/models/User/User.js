@@ -1,7 +1,8 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 const Meal = require("../Meals/Meals");
-const Workout = require('../Workouts/Workouts')
+const Workout = require('../Workouts/Workouts');
+const dateFormat = require("../../../client/fitness/src/utils/dateFormat");
 
 const UserSchema = new Schema({
   firstName: {
@@ -20,6 +21,11 @@ const UserSchema = new Schema({
     unique: true,
     trim: true,
   },
+  workoutPersona: {
+    type:String,
+    required: true,
+    maxlength: 15
+  },
   email: {
     type: String,
     required: true,
@@ -37,8 +43,27 @@ const UserSchema = new Schema({
     required: true,
     minlength: 5,
   },
+  age: {
+    type: Number,
+    required: true
+  },
+  aboutMe: {
+    type:String,
+    required: true,
+    minlength: 10
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+    get: timestamp => dateFormat(timestamp)
+  },
   meals: [Meal.schema],
   workouts: [Workout.schema]
+},
+{
+  toJSON: {
+    getters: true
+  }
 });
 
 UserSchema.pre("save", async function (next) {

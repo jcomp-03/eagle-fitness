@@ -4,7 +4,7 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    me: async (parent,__, context) => {
+    me: async (parent, __, context) => {
       if (context.user) {
         // Must use findById to find a single entry
         const userData = await User.findById({ _id: context.user._id });
@@ -30,8 +30,8 @@ const resolvers = {
   Mutation: {
     addUser: async (parent, args) => {
       const newUser = await User.create(args);
-      const token = signToken(newUser)
-      return {token, newUser};
+      const token = signToken(newUser);
+      return { token, newUser };
     },
     login: async (parent, args) => {
       const user = await User.findOne({ email: args.email });
@@ -47,6 +47,19 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
+    },
+    updateUser: async (parent, args, context) => {
+      console.log(args)
+      if (context.user) {
+        const updatedUser = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          args,
+          { new: true, runValidators: true }
+        );
+
+        return updatedUser;
+      }
+      throw new AuthenticationError("Must be logged in!");
     },
     // MUST be done in the order: addMeal -> addUserMeal
     addMeal: async (parent, args) => {

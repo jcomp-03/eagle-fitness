@@ -1,13 +1,41 @@
-import { useQuery } from "@apollo/client";
-import React from "react";
+import { useQuery, useMutation } from "@apollo/client";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
-import { QUERY_ME } from "../../utils/graphQL/queries";
+import auth from "../../utils/auth";
+import { UPDATE_USER } from "../../utils/graphQL/mutations";
 
 function ProfilePage({ setCurrentPage }) {
   setCurrentPage("Profile");
 
-  const data = useQuery(QUERY_ME)
-  console.log(data)
+  const [formState, setFormState] = useState({});
+  const [changeInfo, { error }] = useMutation(UPDATE_USER);
+
+  // update state based on form input changes
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+  // submit form
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      await changeInfo({
+        variables: { ...formState }
+      });
+    
+      window.location.reload()
+
+      // console.log(formState)
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <div>
@@ -65,6 +93,10 @@ function ProfilePage({ setCurrentPage }) {
                         <h4 className="text-center">DATA.NAME'S Workouts</h4>
                       </div>
                       {/* user workout data goes here */}
+                      <ul className="list-group">
+                        <li>hello</li>
+                        <li>byee</li>
+                      </ul>
                     </div>
                   </div>
                   <div className="profile-statistics mb-5">
@@ -195,13 +227,15 @@ function ProfilePage({ setCurrentPage }) {
                               <p className="font-weight-bold">
                                 Modify your personal information here
                               </p>
-                              <form>
+                              <form onSubmit={handleFormSubmit}>
                                 <div className="form-row">
                                   <div className="form-group col-md-6">
                                     <label>Email</label>
                                     <input
                                       type="email"
+                                      name="email"
                                       placeholder="Email"
+                                      onChange={handleChange}
                                       className="form-control"
                                     ></input>
                                   </div>
@@ -209,7 +243,9 @@ function ProfilePage({ setCurrentPage }) {
                                     <label>Password</label>
                                     <input
                                       type="password"
+                                      name="password"
                                       placeholder="Password"
+                                      onChange={handleChange}
                                       className="form-control"
                                     ></input>
                                   </div>
@@ -218,6 +254,8 @@ function ProfilePage({ setCurrentPage }) {
                                   <label>First Name</label>
                                   <input
                                     type="name"
+                                    name="firstName"
+                                    onChange={handleChange}
                                     className="form-control"
                                   ></input>
                                 </div>
@@ -225,6 +263,8 @@ function ProfilePage({ setCurrentPage }) {
                                   <label>Last Name</label>
                                   <input
                                     type="text"
+                                    name="lastName"
+                                    onChange={handleChange}
                                     className="form-control"
                                   ></input>
                                 </div>
@@ -232,6 +272,8 @@ function ProfilePage({ setCurrentPage }) {
                                   <label>Workout Persona</label>
                                   <input
                                     type="text"
+                                    name="workoutPersona"
+                                    onChange={handleChange}
                                     className="form-control"
                                   ></input>
                                 </div>
@@ -239,6 +281,8 @@ function ProfilePage({ setCurrentPage }) {
                                   <label>About Me</label>
                                   <textarea
                                     type="text"
+                                    name="aboutMe"
+                                    onChange={handleChange}
                                     className="form-control"
                                   ></textarea>
                                 </div>
@@ -251,45 +295,6 @@ function ProfilePage({ setCurrentPage }) {
                                 </button>
                               </form>
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* <!-- Modal --> */}
-                    <div className="modal fade" id="replyModal">
-                      <div
-                        className="modal-dialog modal-dialog-centered"
-                        role="document"
-                      >
-                        <div className="modal-content">
-                          <div className="modal-header">
-                            <h5 className="modal-title">Post Reply</h5>
-                            <button
-                              type="button"
-                              className="close"
-                              data-dismiss="modal"
-                            >
-                              <span>&times;</span>
-                            </button>
-                          </div>
-                          <div className="modal-body">
-                            <form>
-                              <textarea className="form-control" rows="4">
-                                Message
-                              </textarea>
-                            </form>
-                          </div>
-                          <div className="modal-footer">
-                            <button
-                              type="button"
-                              className="btn btn-danger light"
-                              data-dismiss="modal"
-                            >
-                              Close
-                            </button>
-                            <button type="button" className="btn btn-primary">
-                              Reply
-                            </button>
                           </div>
                         </div>
                       </div>
