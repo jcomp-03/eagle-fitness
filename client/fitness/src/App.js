@@ -15,6 +15,7 @@ import {
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import ProfilePage from "./pages/profile";
+import LoginPage from "./pages/login";
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -36,22 +37,34 @@ const client = new ApolloClient({
 });
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("")
+  const [currentPage, setCurrentPage] = useState("");
   return (
     <BrowserRouter>
       <div>
         <ApolloProvider client={client}>
           <div>
-            <Logo />
-            <Header currentPage={currentPage}/>
-            <Sidebar />
-            <div className="content-body">
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route
+                path="*"
+                element={[
+                  <Logo />,
+                  <Header currentPage={currentPage} />,
+                  <Sidebar />,
+                ]}
+              ></Route>
+            </Routes>
               <Routes>
-                <Route path="/dashboard" element={<Dashboard setCurrentPage={setCurrentPage}/>} />
+                <Route
+                  path="/dashboard"
+                  element={<Dashboard setCurrentPage={setCurrentPage} />}
+                />
                 <Route path="/calendar" element={<FitnessCalendar />} />
-                <Route path="/profile" element={<ProfilePage setCurrentPage={setCurrentPage}/>} />
+                <Route
+                  path="/profile"
+                  element={<ProfilePage setCurrentPage={setCurrentPage} />}
+                />
               </Routes>
-            </div>
           </div>
         </ApolloProvider>
       </div>

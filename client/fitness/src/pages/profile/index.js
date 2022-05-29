@@ -38,7 +38,7 @@ function ProfilePage({ setCurrentPage }) {
   };
 
   return (
-    <div>
+    <div className="content-body">
       <div className="">
         <div className="container-fluid">
           <div className="page-titles">

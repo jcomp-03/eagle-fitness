@@ -26,7 +26,7 @@ function Header({currentPage}) {
                     <p className="fs-12 mb-0">Super Admin</p>
                   </div>
                 </a>
-                <div className="dropdown-menu dropdown-menu-right">
+                <div className="dropdown-menu dropdown-menu-right shadow">
                   <Link className="dropdown-item ai-icon" to='/profile'>
                     <svg
                       id="icon-user1"
@@ -46,7 +46,7 @@ function Header({currentPage}) {
                     </svg>
                     <span className="ml-2">Profile</span>
                   </Link>
-                  <a href="./email-inbox.html" className="dropdown-item ai-icon">
+                  {/* <a href="./email-inbox.html" className="dropdown-item ai-icon">
                     <svg
                       id="icon-inbox"
                       xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,7 @@ function Header({currentPage}) {
                       <polyline points="22,6 12,13 2,6"></polyline>
                     </svg>
                     <span className="ml-2">Inbox </span>
-                  </a>
+                  </a> */}
                   <a href="./page-login.html" className="dropdown-item ai-icon">
                     <svg
                       id="icon-logout"
