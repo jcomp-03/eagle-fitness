@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import "@mobiscroll/react/dist/css/mobiscroll.min.css";
-import { Eventcalendar, getJson, toast } from "@mobiscroll/react";
-import moment from 'moment';
+
+import moment from 'moment'
 
 function FitnessCalendar() {
   const [myEvents, setEvents] = React.useState([]);
