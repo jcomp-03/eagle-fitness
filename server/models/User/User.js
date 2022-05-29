@@ -2,7 +2,7 @@ const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 const Meal = require("../Meals/Meals");
 const Workout = require('../Workouts/Workouts');
-const dateFormat = require("../../../client/fitness/src/utils/dateFormat");
+const dateFormat = require("../../../client/src/utils/dateFormat");
 
 const UserSchema = new Schema({
   firstName: {
