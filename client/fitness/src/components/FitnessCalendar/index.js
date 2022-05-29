@@ -1,8 +1,25 @@
 import React, { useState } from "react";
-import Calendar from "react-calendar";
+import Modal from 'react-bootstrap/Modal';
 
 function FitnessCalendar() {
   const [value, onChange] = useState(new Date());
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newWorkout, setNewWorkout] = useState({ date: null, name: '', workoutType: '', workoutDescription: ''  })
+
+  const closeModal = () => setModalVisible(false);
+  const showModal = () => setModalVisible(true);
+
+  const handleNewEventClick = (val) => {
+      setNewWorkout({...newWorkout, date: val})
+      showModal();
+  }
+
+  const handleUpdateNewWorkout = (key, val) => {
+      const newWorkoutState = {...newWorkout}
+      newWorkoutState[key] = val;
+      setNewWorkout(newWorkoutState);
+  }
 
   return (
     <div className="container-fluid">
@@ -24,7 +41,7 @@ function FitnessCalendar() {
               <h4 className="card-intro-title">Calendar</h4>
 
               <div className="">
-                <div id="external-events" class="my-3">
+                <div id="external-events" className="my-3">
                   <p>Drag and drop your event or click in the calendar</p>
                   <div className="external-event" data-class="bg-primary">
                     <i className="fa fa-move"></i>New Theme Release
@@ -68,46 +85,31 @@ function FitnessCalendar() {
         <div className="Sample">
           <div className="calendar-container">
             <main className="calendar_container_content">
-              <Calendar onChange={onChange} value={value} />
+              <Calendar 
+              onClickDay={handleNewEventClick}
+              onChange={onChange} 
+              value={value} />
             </main>
           </div>
         </div>
 
-        <div className="modal fade none-border" id="event-modal">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h4 className="modal-title">
-                  <strong>Add New Event</strong>
-                </h4>
-              </div>
-              <div className="modal-body"></div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-default waves-effect"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success save-event waves-effect waves-light"
-                >
-                  Create event
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-danger delete-event waves-effect waves-light"
-                  data-dismiss="modal"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Modal show={modalVisible} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title><strong>Add New Event</strong></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+            <input type="text" value={newWorkout.name} onChange={(e) => handleUpdateNewWorkout('name', e.target.value)} />
+            Woohoo, you're reading this text in a modal!
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn btn-secondary" onClick={closeModal}>
+            Close
+          </button>
+          <button className="btn btn-primary" onClick={closeModal}>
+            Save Changes
+          </button>
+        </Modal.Footer>
+      </Modal>
 
         <div className="modal fade none-border" id="add-category">
           <div className="modal-dialog">
