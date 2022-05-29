@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import React from "react";
 // import ApexCharts from "apexcharts";
 import Chart from "react-apexcharts";
+import { QUERY_ME } from "../../utils/graphQL/queries";
 
 function WorkoutStatisticsRunning() {
 
