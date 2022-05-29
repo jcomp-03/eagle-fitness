@@ -3,11 +3,14 @@ import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import auth from "../../utils/auth";
 import { UPDATE_USER } from "../../utils/graphQL/mutations";
+import { QUERY_ME } from "../../utils/graphQL/queries";
 
 function ProfilePage({ setCurrentPage }) {
   setCurrentPage("Profile");
 
   const [formState, setFormState] = useState({});
+  const {loading, data} = useQuery(QUERY_ME)
+  const me = data?.me
   const [changeInfo, { error }] = useMutation(UPDATE_USER);
 
   // update state based on form input changes
@@ -36,6 +39,10 @@ function ProfilePage({ setCurrentPage }) {
       console.error(e);
     }
   };
+
+  if (loading) {
+    return <div className="content-body"><h1>Please Wait...</h1></div>
+  }
 
   return (
     <div className="content-body">
@@ -69,11 +76,11 @@ function ProfilePage({ setCurrentPage }) {
                     </div>
                     <div className="profile-details">
                       <div className="profile-name px-3 pt-2">
-                        <h4 className="text-primary mb-0">DATA.NAME</h4>
-                        <p>DATA.WORKOUT-PERSONA</p>
+                        <h4 className="text-primary mb-0">{me.firstName} {me.lastName}</h4>
+                        <p>{me.workoutPersona}</p>
                       </div>
                       <div className="profile-email px-2 pt-2">
-                        <h4 className="text-muted mb-0">DATA.EMAIL</h4>
+                        <h4 className="text-muted mb-0">{me.email}</h4>
                         <p>Email</p>
                       </div>
                     </div>
@@ -90,7 +97,7 @@ function ProfilePage({ setCurrentPage }) {
                   <div className="profile-statistics mb-5">
                     <div className="text-center">
                       <div className="row justify-content-center">
-                        <h4 className="text-center">DATA.NAME'S Workouts</h4>
+                        <h4 className="text-center">{`${me.firstName}'s`} Workouts</h4>
                       </div>
                       {/* user workout data goes here */}
                       <ul className="list-group">
@@ -102,7 +109,7 @@ function ProfilePage({ setCurrentPage }) {
                   <div className="profile-statistics mb-5">
                     <div className="text-center">
                       <div className="row justify-content-center">
-                        <h4 className="text-center">DATA.NAME'S Meal Plan</h4>
+                        <h4 className="text-center">{`${me.firstName}'s`}  Meal Plan</h4>
                       </div>
                     </div>
                   </div>
@@ -142,14 +149,7 @@ function ProfilePage({ setCurrentPage }) {
                             <div className="pt-4 border-bottom-1 pb-3">
                               <h4 className="text-primary">About Me</h4>
                               <p className="mb-2">
-                                DATA.ABOUT-ME <br></br>A wonderful serenity has
-                                taken possession of my entire soul, like these
-                                sweet mornings of spring which I enjoy with my
-                                whole heart. I am alone, and feel the charm of
-                                existence was created for the bliss of souls
-                                like mine.I am so happy, my dear friend, so
-                                absorbed in the exquisite sense of mere tranquil
-                                existence, that I neglect my talents.
+                                {me.aboutMe}
                               </p>
                               <p>
                                 A collection of textile samples lay spread out
@@ -172,7 +172,7 @@ function ProfilePage({ setCurrentPage }) {
                                 </h5>
                               </div>
                               <div className="col-sm-9 col-7">
-                                <span>DATA.NAME</span>
+                                <span>{me.firstName} {me.lastName}</span>
                               </div>
                             </div>
                             <div className="row mb-2">
@@ -182,7 +182,7 @@ function ProfilePage({ setCurrentPage }) {
                                 </h5>
                               </div>
                               <div className="col-sm-9 col-7">
-                                <span>DATA.EMAIL</span>
+                                <span>{me.email}</span>
                               </div>
                             </div>
 
@@ -193,7 +193,7 @@ function ProfilePage({ setCurrentPage }) {
                                 </h5>
                               </div>
                               <div className="col-sm-9 col-7">
-                                <span>DATA.AGE</span>
+                                <span>{me.age}</span>
                               </div>
                             </div>
                             <div className="row mb-2">

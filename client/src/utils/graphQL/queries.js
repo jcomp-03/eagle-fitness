@@ -4,10 +4,14 @@ export const QUERY_ME = gql`
 query me {
   me {
     _id
+    createdAt
     firstName
     lastName
     username
+    workoutPersona
     email
+    age
+    aboutMe
     meals {
       mealName
       totalCalories
