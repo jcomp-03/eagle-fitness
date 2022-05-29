@@ -11,6 +11,7 @@ import Logo from "./components/Logo";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import FitnessCalendar from "./components/FitnessCalendar";
+import WorkoutStatistics from "./components/WorkoutStatistics";
 import {
   ApolloClient,
   InMemoryCache,
@@ -52,6 +53,7 @@ function App() {
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/calendar" element={<FitnessCalendar />} />
+          <Route path="/workoutstatistics" element={<WorkoutStatistics />} />
         </Routes>
         </div>
       </div>

@@ -19,10 +19,10 @@ function Sidebar() {
             </a>
           </li>
           <li>
-            <a href="#" aria-expanded="false">
-              <i className="flaticon-381-controls-3"></i>
+            <Link to="/workoutstatistics">
+            <i className="flaticon-381-controls-3"></i>
               <span className="nav-text">Workout Statistics</span>
-            </a>
+            </Link>
           </li>
           <li>
           <Link to="/calendar">
