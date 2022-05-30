@@ -45,9 +45,9 @@ const LoginPage = () => {
                 <div className="col-xl-12">
                   <div className="auth-form">
                     <div className="text-center mb-3">
-                      <a href="index.html">
+                      <Link to="/landing">
                         <img src="images/logo-full.png" alt=""></img>
-                      </a>
+                      </Link>
                     </div>
                     <h4 className="text-center mb-4 text-white">Sign in</h4>
                     <form>
