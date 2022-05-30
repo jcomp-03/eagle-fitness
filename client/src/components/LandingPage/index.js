@@ -5,7 +5,7 @@ import { Grid, Container, Button, Tooltip } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
-import hero9 from '../../assets/images/hero-bg/hero-5.jpg';
+import hero9 from '../../assets/images/hero-bg/eagle-hero.png';
 
 const LandingPage = () => {
   return (
@@ -59,11 +59,11 @@ const LandingPage = () => {
                         <Link to="/signup">
                         <Button
                           to="/signup"
+                          component={Link}
                           size="large"
                           color="secondary"
                           variant="contained"
                           className="m-2 py-3 px-5"
-                          target="_blank"
                           title="Sign Up! we will make you great again">
                             <span className="btn-wrapper--icon">
                             <FontAwesomeIcon icon={['fas', 'download']} />
