@@ -1,16 +1,19 @@
 import { useQuery, useMutation } from "@apollo/client";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import auth from "../../utils/auth";
 import { UPDATE_USER } from "../../utils/graphQL/mutations";
 import { QUERY_ME } from "../../utils/graphQL/queries";
 
 function ProfilePage({ setCurrentPage }) {
+  if (!auth.loggedIn()) {
+    window.location.replace("/login");
+  }
   setCurrentPage("Profile");
 
   const [formState, setFormState] = useState({});
-  const {loading, data} = useQuery(QUERY_ME)
-  const me = data?.me
+  const { loading, data } = useQuery(QUERY_ME);
+  const me = data?.me;
   const [changeInfo, { error }] = useMutation(UPDATE_USER);
 
   // update state based on form input changes
@@ -28,26 +31,34 @@ function ProfilePage({ setCurrentPage }) {
     event.preventDefault();
 
     try {
+      if (formState.value == "") {
+        console.log(formState.value);
+      }
       await changeInfo({
-        variables: { ...formState }
+        variables: { ...formState },
       });
-    
-      window.location.reload()
+
+      window.location.reload();
 
       // console.log(formState)
     } catch (e) {
+      setFormState({});
       console.error(e);
     }
   };
 
   if (loading) {
-    return <div className="content-body"><h1>Please Wait...</h1></div>
+    return (
+      <div className="content-body">
+        <h1>Please Wait...</h1>
+      </div>
+    );
   }
 
   return (
     <div className="content-body">
       <div className="">
-        <div className="container-fluid">
+        <div className="container-fluid pt-0">
           <div className="page-titles">
             <ol className="breadcrumb">
               <li className="breadcrumb-item">
@@ -76,7 +87,9 @@ function ProfilePage({ setCurrentPage }) {
                     </div>
                     <div className="profile-details">
                       <div className="profile-name px-3 pt-2">
-                        <h4 className="text-primary mb-0">{me.firstName} {me.lastName}</h4>
+                        <h4 className="text-primary mb-0">
+                          {me.firstName} {me.lastName}
+                        </h4>
                         <p>{me.workoutPersona}</p>
                       </div>
                       <div className="profile-email px-2 pt-2">
@@ -97,23 +110,41 @@ function ProfilePage({ setCurrentPage }) {
                   <div className="profile-statistics mb-5">
                     <div className="text-center">
                       <div className="row justify-content-center">
-                        <h4 className="text-center">{`${me.firstName}'s`} Workouts</h4>
+                        <h4 className="text-center">
+                          {`${me.firstName}'s`} Workouts
+                        </h4>
                       </div>
                       {/* user workout data goes here */}
-                      <ul className="list-group">
-                        <li>hello</li>
-                        <li>byee</li>
-                      </ul>
+                      {me.workouts.length > 0 ? (
+                        me.workouts.map((workout) => (
+                          <div className="my-3 p-3 shadow-sm border border-solid border-dark border-3 rounded">
+                            <p className="font-weight-bold">{workout.name}</p>
+                            <p className="font-italic">{workout.workoutType}</p>
+                            <p className="font-weight-bold">{workout.workoutDescription}</p>
+                          </div>
+                        ))
+                      ) : (
+                        <p>User has no saved workouts</p>
+                      )}
                     </div>
                   </div>
                   <div className="profile-statistics mb-5">
                     <div className="text-center">
                       <div className="row justify-content-center">
-                        <h4 className="text-center">{`${me.firstName}'s`}  Meal Plan</h4>
+                        <h4 className="text-center">
+                          {`${me.firstName}'s`} Meal Plan
+                        </h4>
                       </div>
+                      {/* user meal plan data goes here */}
+                      {me.meals.length > 0 ? (
+                        me.meals.map((meal) => {
+                          <p>sss</p>;
+                        })
+                      ) : (
+                        <p>User has no saved meals</p>
+                      )}
                     </div>
                   </div>
-                  {/* user meal plan data goes here */}
                 </div>
                 {/* end card body */}
               </div>
@@ -148,16 +179,7 @@ function ProfilePage({ setCurrentPage }) {
                           <div className="profile-about-me">
                             <div className="pt-4 border-bottom-1 pb-3">
                               <h4 className="text-primary">About Me</h4>
-                              <p className="mb-2">
-                                {me.aboutMe}
-                              </p>
-                              <p>
-                                A collection of textile samples lay spread out
-                                on the table - Samsa was a travelling salesman -
-                                and above it there hung a picture that he had
-                                recently cut out of an illustrated magazine and
-                                housed in a nice, gilded frame.
-                              </p>
+                              <p className="mb-2">{me.aboutMe}</p>
                             </div>
                           </div>
 
@@ -172,7 +194,9 @@ function ProfilePage({ setCurrentPage }) {
                                 </h5>
                               </div>
                               <div className="col-sm-9 col-7">
-                                <span>{me.firstName} {me.lastName}</span>
+                                <span>
+                                  {me.firstName} {me.lastName}
+                                </span>
                               </div>
                             </div>
                             <div className="row mb-2">
@@ -204,7 +228,7 @@ function ProfilePage({ setCurrentPage }) {
                                 </h5>
                               </div>
                               <div className="col-sm-9 col-7">
-                                <span>DATA.WORKOUT-PERSONA</span>
+                                <span>{me.workoutPersona}</span>
                               </div>
                             </div>
                             <div className="row mb-2">
@@ -215,7 +239,7 @@ function ProfilePage({ setCurrentPage }) {
                                 </h5>
                               </div>
                               <div className="col-sm-9 col-7">
-                                <span>DATE JOINED(CREATED-AT)</span>
+                                <span>{me.createdAt}</span>
                               </div>
                             </div>
                           </div>
@@ -225,16 +249,16 @@ function ProfilePage({ setCurrentPage }) {
                             <div className="settings-form">
                               <h4 className="text-primary">Account Settings</h4>
                               <p className="font-weight-bold">
-                                Modify your personal information here
+                                Modify your personal information here. <br></br>
+                                For data you wish to keep the same, leave the
+                                corresponding field blank.
                               </p>
                               <form onSubmit={handleFormSubmit}>
                                 <div className="form-row">
                                   <div className="form-group col-md-6">
                                     <label>Email</label>
                                     <input
-                                      type="email"
                                       name="email"
-                                      placeholder="Email"
                                       onChange={handleChange}
                                       className="form-control"
                                     ></input>
@@ -242,9 +266,7 @@ function ProfilePage({ setCurrentPage }) {
                                   <div className="form-group col-md-6">
                                     <label>Password</label>
                                     <input
-                                      type="password"
                                       name="password"
-                                      placeholder="Password"
                                       onChange={handleChange}
                                       className="form-control"
                                     ></input>
@@ -286,6 +308,12 @@ function ProfilePage({ setCurrentPage }) {
                                     className="form-control"
                                   ></textarea>
                                 </div>
+
+                                {error && (
+                                  <p className="text-danger">
+                                    There was a problem with your data
+                                  </p>
+                                )}
 
                                 <button
                                   className="btn btn-primary"

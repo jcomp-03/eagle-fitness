@@ -1,9 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import auth from "../../utils/auth";
 
 function Header({currentPage}) {
+
+  function logout() {
+    auth.logout()
+  }
+
   return (
-    <div className="header">
+    <div className="header shadow-sm">
       <div className="header-content">
         <nav className="navbar navbar-expand">
           <div className="collapse navbar-collapse justify-content-between">
@@ -65,7 +71,7 @@ function Header({currentPage}) {
                     </svg>
                     <span className="ml-2">Inbox </span>
                   </a> */}
-                  <a href="./page-login.html" className="dropdown-item ai-icon">
+                  <a onClick={logout} href="#" className="dropdown-item ai-icon">
                     <svg
                       id="icon-logout"
                       xmlns="http://www.w3.org/2000/svg"

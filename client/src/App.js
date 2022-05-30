@@ -31,6 +31,11 @@ import {
   faDownload,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
+library.add(
+  fas,
+  faDownload,
+  faArrowRight,
+)
 
 const httpLink = createHttpLink({
   uri: "/graphql",
@@ -61,7 +66,8 @@ function App() {
             <Routes>
               <Route path="/landing" element={<Landing />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignUp />}></Route>
+              <Route path="/signup" element={<SignUp />} />
+              <Route index element={<Landing />} />
               <Route
                 path="*"
                 element={[
