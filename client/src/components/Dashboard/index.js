@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Component } from 'react';
 
 import Chart from "react-apexcharts";
+import auth from '../../utils/auth';
 
 class Dashboard extends Component {
 
@@ -37,6 +38,9 @@ class Dashboard extends Component {
   
  
 render () {
+  if (!auth.loggedIn()) {
+    window.location.replace("/login");
+  }
   return (
     <div className='content-body'>
 

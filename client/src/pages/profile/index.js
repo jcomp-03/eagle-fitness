@@ -22,7 +22,7 @@ function ProfilePage({ setCurrentPage }) {
 
     setFormState({
       ...formState,
-      [name]: value,
+      [name]: value.length>0?value:null,
     });
   };
 
@@ -120,7 +120,9 @@ function ProfilePage({ setCurrentPage }) {
                           <div className="my-3 p-3 shadow-sm border border-solid border-dark border-3 rounded">
                             <p className="font-weight-bold">{workout.name}</p>
                             <p className="font-italic">{workout.workoutType}</p>
-                            <p className="font-weight-bold">{workout.workoutDescription}</p>
+                            <p className="font-weight-bold">
+                              {workout.workoutDescription}
+                            </p>
                           </div>
                         ))
                       ) : (
@@ -137,9 +139,19 @@ function ProfilePage({ setCurrentPage }) {
                       </div>
                       {/* user meal plan data goes here */}
                       {me.meals.length > 0 ? (
-                        me.meals.map((meal) => {
-                          <p>sss</p>;
-                        })
+                        me.meals.map((meal) => (
+                          <div className="my-3 p-3 shadow-sm border border-solid border-dark border-3 rounded">
+                            <p className="font-weight-bold">{meal.mealName}</p>
+                            <p className="font-italic">
+                              Ingredients: <br></br>{" "}
+                              {meal.ingredients.map((ingredient) => (
+                                <div className="font-weight-bold">
+                                  <p>{ingredient}</p>
+                                </div>
+                              ))}
+                            </p>
+                          </div>
+                        ))
                       ) : (
                         <p>User has no saved meals</p>
                       )}
