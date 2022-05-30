@@ -7,7 +7,7 @@ function WorkoutStatistics() {
 
 
   return (
-    <div>
+    <div className="content-body">
       <h1>This is h1 text</h1>
       <WorkoutStatisticsRunning />
       <WorkoutStatisticsCycling />

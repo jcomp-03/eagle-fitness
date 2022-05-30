@@ -1,13 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Logo() {
   return (
     <div className="nav-header">
-      <a href="index.html" className="brand-logo">
+      <Link className="brand-logo" to="/dashboard">
         <img className="logo-abbr" src="./images/logo.png" alt="" />
         <img className="logo-compact" src="./images/logo-text.png" alt="" />
         <img className="brand-title" src="./images/logo-text.png" alt="" />
-      </a>
+      </Link>
     </div>
   );
 }

@@ -23,6 +23,7 @@ class Dashboard extends Component {
       }
     ]
   };
+  this.props.setCurrentPage("Dashboard")
   }
 
   // const [chartState, setChartState] = useState(initialChartState)
@@ -32,9 +33,13 @@ class Dashboard extends Component {
   //   .then(res => res.json)
   //   .then(res => setChartState({...chartState, series: res.data}))
   // }, [])
+
+  
  
 render () {
   return (
+    <div className='content-body'>
+
     <div className="container-fluid">
       <div className="row">
         <div className="col-xl-6 col-xxl-12">
@@ -375,6 +380,7 @@ render () {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
