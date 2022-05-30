@@ -13,7 +13,7 @@ import './assets/base.scss';
 import "./App.css";
 
 import {
-    BrowserRouter,
+    BrowserRouter as Router, // renamed as Router to follow the module's style
     Routes,
     Route,
 } from "react-router-dom";
@@ -53,10 +53,10 @@ const client = new ApolloClient({
 
 function App() {
   const [currentPage, setCurrentPage] = useState("");
+  
   return (
     <ApolloProvider client={client}>
-      <div>
-        <BrowserRouter>
+        <Router>
           <div>
             <Routes>
               <Route path="/landing" element={<Landing />} />
@@ -88,8 +88,7 @@ function App() {
               />
             </Routes>
           </div>
-        </BrowserRouter>
-      </div>
+        </Router>
     </ApolloProvider>
   );
 }

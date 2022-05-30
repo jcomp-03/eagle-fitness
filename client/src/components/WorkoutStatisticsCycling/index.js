@@ -7,12 +7,12 @@ function WorkoutStatisticsCycling() {
   const series = [
     {
       type: "line", // render line chart for cumulative miles
-      name: "Cumulative Miles Cycled",
+      name: "Cumul. Miles",
       data: [7, 13, 21, 27, 33, 43, 50, 55, 64],
     },
     {
       type: "bar", // render bar chart for weekly miles run
-      name: "Weekly Distance Covered",
+      name: "Weekly Distance",
       data: [7, 6, 8, 6, 6, 10, 7, 5, 9],
     },
   ];
@@ -108,10 +108,10 @@ function WorkoutStatisticsCycling() {
   };
 
   return (
-    <div class="col-xl-4 col-lg-5 border border-info border-2">
-      <div class="card">
-        <div class="card-header pb-0 border-0">
-          <span class="p-3 mr-3 rounded bg-secondary">
+    <div className="mx-1 col-3 col-xl-4 col-lg-5 border border-info border-2">
+    <div className="card">
+        <div className="card-header pb-0 border-0">
+          <span className="p-3 mr-3 rounded bg-secondary">
             <svg
               width="24"
               height="24"
@@ -137,14 +137,14 @@ function WorkoutStatisticsCycling() {
               />
             </svg>
           </span>
-          <div class="mr-auto pr-3">
-            <h4 class="text-black fs-20">Cycling</h4>
-            <p class="fs-13 mb-0 text-black">
+          <div className="mr-auto pr-3">
+            <h4 className="text-black fs-20">Cycling</h4>
+            <p className="fs-13 mb-0 text-black">
               Lorem ipsum dolor sit amet, consectetur
             </p>
           </div>
         </div>
-        <div class="card-body pb-0">
+        <div className="card-body pb-0">
           <Chart options={options} series={series} type="line" />
         </div>
       </div>

@@ -4,13 +4,12 @@ import React from "react";
 import WorkoutStatisticsRunning from "../WorkoutStatisticsRunning";
 import WorkoutStatisticsCycling from "../WorkoutStatisticsCycling";
 function WorkoutStatistics() {
-
-
   return (
-    <div>
-      <h1>This is h1 text</h1>
-      <WorkoutStatisticsRunning />
-      <WorkoutStatisticsCycling />
+    <div className="container border border-danger">
+      <div className="row">
+        <WorkoutStatisticsRunning />
+        <WorkoutStatisticsCycling />
+      </div>
     </div>
   );
 }
