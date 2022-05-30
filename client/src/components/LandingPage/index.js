@@ -57,7 +57,7 @@ const LandingPage = () => {
                           </span>
                         </Button>
                         <Button
-                          to=" /signup"
+                          to="/signup"
                           size="large"
                           color="secondary"
                           variant="contained"
