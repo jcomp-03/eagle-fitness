@@ -26,7 +26,9 @@ const typeDefs = gql`
     _id: ID
     name: String
     workoutType: String
-    workoutDescription: String
+    workoutDescription: String,
+    startTime: Timestamp,
+    durationMinutes: Integer
   }
 
   type Query {
