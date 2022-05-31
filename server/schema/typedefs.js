@@ -26,7 +26,9 @@ const typeDefs = gql`
     _id: ID
     name: String
     workoutType: String
-    workoutDescription: String
+    workoutDescription: String,
+    # startTime: String,
+    # durationMinutes: Int
   }
 
   type Query {
@@ -81,7 +83,9 @@ const typeDefs = gql`
       workoutDescription: String!
     ): Workout
 
-    addUserWorkout(userId: ID!, workout: ID!): User
+    addUserWorkout(workout: ID!): User
+
+    deleteUserWorkout(workout: ID!): User
   }
 `;
 

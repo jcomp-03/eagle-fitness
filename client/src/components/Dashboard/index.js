@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Component } from 'react';
 
 import Chart from "react-apexcharts";
+import auth from '../../utils/auth';
 
 class Dashboard extends Component {
 
@@ -13,15 +14,15 @@ class Dashboard extends Component {
         id: "basic-bar"
       },
       xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+        categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'Novermber', 'December']
       }
     },
     series: [
       {
-        name: "series-1",
+        name: "Hours",
         data: [30, 40, 45, 50, 49, 60, 70, 91]
       }
-    ]
+    ],
   };
   this.props.setCurrentPage("Dashboard")
   }
@@ -33,10 +34,11 @@ class Dashboard extends Component {
   //   .then(res => res.json)
   //   .then(res => setChartState({...chartState, series: res.data}))
   // }, [])
-
-  
  
 render () {
+  if (!auth.loggedIn()) {
+    window.location.replace("/login");
+  }
   return (
     <div className='content-body'>
 
@@ -110,7 +112,7 @@ render () {
                     </div>
                   </div>
                 </div>
-                <div className="effect bg-secondary"></div>
+                <div className="effect bg-dark"></div>
               </div>
             </div>
             <div className="col-sm-6">
@@ -203,7 +205,7 @@ render () {
           <div className="card">
             <div className="card-header d-sm-flex d-block pb-0 border-0">
               <div className="mr-auto pr-3 mb-sm-0 mb-3">
-                <h4 className="text-black fs-20">Plan List</h4>
+                <h4 className="text-black fs-20">Monthly Progress</h4>
               </div>
               <div className="dropdown mb-3 show">
                 <button
@@ -274,7 +276,7 @@ render () {
               options={this.state.options}
               series={this.state.series}
               type="line"
-              width="500"
+              width="1000"
             />
               </div>
             </div>

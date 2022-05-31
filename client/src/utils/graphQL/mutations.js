@@ -132,3 +132,17 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+
+export const DELETE_USER_WORKOUT = gql`
+mutation deleteUserWorkout($workout: ID!) {
+  deleteUserWorkout(workout: $workout) {
+    username
+    email
+    workouts {
+      name
+      workoutDescription
+      workoutType
+    }
+  }
+}
+`

@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Sidebar() {
+function Sidebar({currentPage}) {
+  console.log(currentPage)
   return (
     <div className="deznav">
       <div className="deznav-scroll">
@@ -13,10 +14,10 @@ function Sidebar() {
             </Link>
           </li>
           <li>
-            <a href="#" aria-expanded="false">
+            <Link to="/workoutplan">
               <i className="flaticon-381-television"></i>
               <span className="nav-text">Workout Plan</span>
-            </a>
+            </Link>
           </li>
           <li>
             <Link to="/workoutstatistics">
@@ -43,11 +44,11 @@ function Sidebar() {
         </div>
         <div className="copyright">
           <p>
-            <strong>Gymove Fitness Admin Dashboard</strong> © 2022 All Rights
+            <strong>Eagle Fitness</strong> © 2022 All Rights
             Reserved
           </p>
           <p>
-            Made with <span className="heart"></span> by DexignZone
+            Made with <span className="heart"></span> by Alex, Abraham, Megan, and James
           </p>
         </div>
       </div>

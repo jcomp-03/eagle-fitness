@@ -6,8 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
 import hero9 from '../../assets/images/hero-bg/eagle-hero.png';
+import auth from '../../utils/auth';
 
 const LandingPage = () => {
+  if(auth.loggedIn()) {
+    window.location.replace("/dashboard")
+  }
   return (
     <Fragment>
       <div className="hero-wrapper bg-composed-wrapper bg-premium-dark min-vh-100">
@@ -36,10 +40,10 @@ const LandingPage = () => {
                         Eagle Fitness
                       </h1>
                       <p className="font-size-xl text-white-50 mb-3">
-                        Meet your patriotic fitness Goals with our great american GYM, EAGLE FITNESS. We will train you to be the all the American you can be. We will make you Great Again!
+                        Meet your patriotic fitness Goals with our great american gym, EAGLE FITNESS. We will train you to be the all the American you can be. We will make you Great Again!
                       </p>
                       <p className="text-white font-size-lg">
-                        Are you already a member?, no? just sign up bellow!
+                        Are you already a member? No? Just sign up below!
                       </p>
                       <div className="divider border-2 border-light my-5 border-light opacity-2 mx-auto rounded-circle w-50" />
                       <div>
@@ -50,12 +54,13 @@ const LandingPage = () => {
                           color="primary"
                           variant="contained"
                           className="m-2 py-3 px-5"
-                          title="Login to you Eagle Fitness Dashboard">
+                          title="Login to your Eagle Fitness Dashboard">
                           <span className="btn-wrapper--label">Log in</span>
                           <span className="btn-wrapper--icon">
                             <FontAwesomeIcon icon={['fas', 'arrow-right']} />
                           </span>
                         </Button>
+                        <Link to="/signup">
                         <Button
                           to="/signup"
                           component={Link}
@@ -64,16 +69,18 @@ const LandingPage = () => {
                           variant="contained"
                           className="m-2 py-3 px-5"
                           title="Sign Up! we will make you great again">
-                          <span className="btn-wrapper--icon">
+                            <span className="btn-wrapper--icon">
                             <FontAwesomeIcon icon={['fas', 'download']} />
                           </span>
-                          <span className="btn-wrapper--label">
+                          <span className="btn-wrapper--label text-light">
                             Sign Up
                           </span>
+                          
                         </Button>
+                            </Link>
                       </div>
                       <small className="d-block pt-4">
-                        "Soar like and Eagle"
+                        "Soar like an Eagle"
                       </small>
                     </div>
                   </div>

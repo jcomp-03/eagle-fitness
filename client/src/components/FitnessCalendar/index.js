@@ -1,8 +1,42 @@
 import React, { useState } from "react";
-import Calendar from "react-calendar";
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import "react-datepicker/dist/react-datepicker.css";
+import { Link } from "react-router-dom";
 
-function FitnessCalendar() {
-  const [value, onChange] = useState(new Date());
+function FitnessCalendar({setCurrentPage}) {
+    setCurrentPage("Calendar")
+  const [newWorkout, setNewWorkout] = useState({
+    name: "",
+    workoutType: "",
+    startTime: null,
+    durationMinutes: null,
+  });
+  const [workouts, setWorkouts] = useState([]);
+
+  const handleUpdateNewWorkout = (key, val) => {
+    const updatedWorkout = { ...newWorkout };
+    updatedWorkout[key] = val;
+    setNewWorkout(updatedWorkout);
+  };
+
+  const handleSubmitNewWorkout = () => {
+    // TODO: Handle submitting to api with GraphQL
+    setWorkouts([...workouts, newWorkout]);
+    setNewWorkout({
+      name: "",
+      workoutType: "",
+      startTime: null,
+      durationMinutes: null,
+    });
+  };
+
+  const handleDeleteWorkout = (i) => {
+    // TODO: Handle submitting delete request to api
+    const updatedWorkouts = [...workouts];
+    updatedWorkouts.splice(i);
+    setWorkouts(updatedWorkouts);
+  };
 
   return (
     <div className="content-body">
@@ -10,7 +44,7 @@ function FitnessCalendar() {
         <div className="page-titles">
           <ol className="breadcrumb">
             <li className="breadcrumb-item">
-              <a href="#">App</a>
+              <Link to="/dashboard">Dashboard</Link>
             </li>
             <li className="breadcrumb-item active">
               <a href="#">Calendar</a>
@@ -22,156 +56,75 @@ function FitnessCalendar() {
           <div className="col-xl-3">
             <div className="card">
               <div className="card-body">
-                <h4 className="card-intro-title">Calendar</h4>
-
-                <div className="">
-                  <div id="external-events" class="my-3">
-                    <p>Drag and drop your event or click in the calendar</p>
-                    <div className="external-event" data-class="bg-primary">
-                      <i className="fa fa-move"></i>New Theme Release
-                    </div>
-                    <div className="external-event" data-class="bg-success">
-                      <i className="fa fa-move"></i>My Event
-                    </div>
-                    <div className="external-event" data-class="bg-warning">
-                      <i className="fa fa-move"></i>Meet manager
-                    </div>
-                    <div className="external-event" data-class="bg-dark">
-                      <i className="fa fa-move"></i>Create New theme
-                    </div>
-                  </div>
-
-                  <div className="checkbox custom-control checkbox-event custom-checkbox pt-3 pb-5">
+                <h4 className="card-intro-title">Add a Workout</h4>
+                <div>
+                  <div className="form-group">
                     <input
-                      type="checkbox"
-                      className="custom-control-input"
-                      id="drop-remove"
+                      type="text"
+                      value={newWorkout.name}
+                      onChange={(e) => {
+                        handleUpdateNewWorkout("name", e.target.value);
+                      }}
+                      className="form-control input-default "
+                      placeholder="Workout Name..."
                     />
-                    <label
-                      className="custom-control-label"
-                      htmlFor="drop-remove"
-                    >
-                      Remove After Drop
-                    </label>
                   </div>
-                  <a
-                    href="#"
-                    data-toggle="modal"
-                    data-target="#add-category"
+                  <div className="form-group">
+                    <select
+                      className="form-select"
+                      value={newWorkout.workoutType}
+                      onChange={(e) => {
+                        handleUpdateNewWorkout("workoutType", e.target.value);
+                      }}
+                    >
+                      <option disabled value="">
+                        {" "}
+                        -- Workout Type --
+                      </option>
+                      <option value="strength">Strength</option>
+                      <option value="cardio">Cardio</option>
+                      <option value="yoga">Yoga</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Start Time:</label>
+                    <DatePicker
+                      showTimeSelect
+                      dateFormat="MMMM d, yyyy h:mm aa"
+                      selected={newWorkout.startTime}
+                      onChange={(date) => {
+                        handleUpdateNewWorkout("startTime", date);
+                      }}
+                    />
+                  </div>
+                  <button
                     className="btn btn-primary btn-event w-100"
+                    onClick={handleSubmitNewWorkout}
                   >
                     <span className="align-middle">
                       <i className="ti-plus"></i>
                     </span>{" "}
                     Create New
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-xl-9">
-            <div className="card">
-              <div className="card-body">
-                <div id="calendar" className="app-fullcalendar">
-                  <Calendar onChange={onChange} value={value} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="modal fade none-border" id="event-modal">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h4 className="modal-title">
-                    <strong>Add New Event</strong>
-                  </h4>
-                </div>
-                <div className="modal-body"></div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-default waves-effect"
-                    data-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-success save-event waves-effect waves-light"
-                  >
-                    Create event
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-danger delete-event waves-effect waves-light"
-                    data-dismiss="modal"
-                  >
-                    Delete
                   </button>
                 </div>
               </div>
             </div>
           </div>
-
-          <div className="modal fade none-border" id="add-category">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h4 className="modal-title">
-                    <strong>Add a category</strong>
-                  </h4>
-                </div>
-                <div className="modal-body">
-                  <form>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <label className="control-label">Category Name</label>
-                        <input
-                          className="form-control form-white"
-                          placeholder="Enter name"
-                          type="text"
-                          name="category-name"
-                        />
-                      </div>
-                      <div className="col-md-6">
-                        <label className="control-label">
-                          Choose Category Color
-                        </label>
-                        <select
-                          className="form-control form-white"
-                          data-placeholder="Choose a color..."
-                          name="category-color"
-                        >
-                          <option value="success">Success</option>
-                          <option value="danger">Danger</option>
-                          <option value="info">Info</option>
-                          <option value="pink">Pink</option>
-                          <option value="primary">Primary</option>
-                          <option value="warning">Warning</option>
-                        </select>
-                      </div>
+          <div className="Sample col-9">
+            <div className="calendar-container">
+              <main className="calendar_container_content">
+                {workouts.map((w, i) => {
+                    
+                  return (
+                    <div key={i}>
+                      Name: {w.name}
+                      Type: {w.workoutType}
+                      Date: {moment(w.startTime).calendar()}
+                      <button onClick={handleDeleteWorkout}>delete</button>
                     </div>
-                  </form>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-default waves-effect"
-                    data-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger waves-effect waves-light save-category"
-                    data-dismiss="modal"
-                  >
-                    Save
-                  </button>
-                </div>
-              </div>
+                  );
+                })}
+              </main>
             </div>
           </div>
         </div>
@@ -179,5 +132,14 @@ function FitnessCalendar() {
     </div>
   );
 }
-
+{/* 
+// for your consideration :D
+<div className="card font-weight-bold p-3" key={i}>
+    Name: {w.name} <br></br>
+    Type: {w.workoutType} <br></br>
+    Date: {moment(w.startTime).calendar()} <br></br>
+    <button className="btn btn-sm w-50 my-3 bg-danger text-light" onClick={handleDeleteWorkout}>delete</button>
+</div> */}
 export default FitnessCalendar;
+
+

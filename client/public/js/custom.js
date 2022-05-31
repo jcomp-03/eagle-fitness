@@ -48,22 +48,22 @@ var Gymove = function(){
 		});
 	}
 	
-	var handleCurrentActive = function() {
-		for (var nk = window.location,
-			o = $("ul#menu a").filter(function() {
-				return this.href == nk;
-			})
-			.addClass("mm-active")
-			.parent()
-			.addClass("mm-active");;) {
-		// console.log(o)
-		if (!o.is("li")) break;
-			o = o.parent()
-				.addClass("mm-show")
-				.parent()
-				.addClass("mm-active");
-		}
-	}
+	// var handleCurrentActive = function() {
+	// 	for (var nk = window.location,
+	// 		o = $("ul#menu a").filter(function() {
+	// 			return this.href == nk;
+	// 		})
+	// 		.addClass("mm-active")
+	// 		.parent()
+	// 		.addClass("mm-active");;) {
+	// 	// console.log(o)
+	// 	if (!o.is("li")) break;
+	// 		o = o.parent()
+	// 			.addClass("mm-show")
+	// 			.parent()
+	// 			.addClass("mm-active");
+	// 	}
+	// }
 	
 	var handleCustomFileInput = function() {
 		$(".custom-file-input").on("change", function() {
