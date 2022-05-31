@@ -79,6 +79,7 @@ function App() {
                 ]}
               ></Route>
             </Routes>
+
             <Routes>
               <Route
                 path="/dashboard"
@@ -95,6 +96,7 @@ function App() {
               />
               <Route path="/workoutplan" element={<WorkoutPlan setCurrentPage={setCurrentPage}></WorkoutPlan>}></Route>
             </Routes>
+
           </div>
         </BrowserRouter>
       </div>
