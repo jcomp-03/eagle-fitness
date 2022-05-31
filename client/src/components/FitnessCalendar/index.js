@@ -2,20 +2,24 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
+import auth from '../../utils/auth';
 import { Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import {ADD_USER_WORKOUT, ADD_WORKOUT} from "../../utils/graphQL/mutations";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-
 
 function FitnessCalendar({setCurrentPage}) {
   setCurrentPage("Calendar")
   const [newWorkout, setNewWorkout] = useState({
     name: "",
     workoutType: "",
-    startTime: null,
-    workoutDescription: ""
+    workoutDescription: "",
   });
   const [workouts, setWorkouts] = useState([]);
+
+  const [saveWorkout, { error, data }] = useMutation(ADD_WORKOUT);
+  const [addUserWorkout] = useMutation(ADD_USER_WORKOUT)
 
   const handleUpdateNewWorkout = (key, val) => {
     const updatedWorkout = { ...newWorkout };
@@ -23,15 +27,49 @@ function FitnessCalendar({setCurrentPage}) {
     setNewWorkout(updatedWorkout);
   };
 
-  const handleSubmitNewWorkout = () => {
-    // TODO: Handle submitting to api with GraphQL
-    setWorkouts([...workouts, newWorkout]);
+  function handleChange(e) {
+      let { name, value } = e.target;
+      setNewWorkout({
+        ...newWorkout,
+        [name]: value,
+      });
+  }
+
+  function handleDateChange(dateString) {
+    let startTime = "startTime";
     setNewWorkout({
-      name: "",
-      workoutType: "",
-      startTime: null,
-      workoutDescription: ""
+      ...newWorkout,
+      [startTime]: dateString
     });
+  }
+
+  const handleSubmitNewWorkout = async (workoutId) => {
+    const workoutToSave = workouts.find((workout) => workout.workoutId === workoutId);
+
+    try {
+      const {data} = await saveWorkout({
+        variables: {...newWorkout},
+      });
+
+      await addUserWorkout({
+        variables:{workout: data.addWorkout._id}
+      })
+
+
+      if (!data) {
+        throw new Error('something went wrong!');
+      }
+
+      setWorkouts([...workouts, newWorkout]);
+      setNewWorkout({
+        name: "",
+        workoutType: "",
+        workoutDescription: "",
+        startTime: null
+      });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleDeleteWorkout = (i) => {
@@ -65,18 +103,19 @@ function FitnessCalendar({setCurrentPage}) {
                     <input
                       type="text"
                       value={newWorkout.name}
-                      onChange={(e) => {
-                        handleUpdateNewWorkout("name", e.target.value);
-                      }}
+                      // onChange={() => {
+                      //   handleUpdateNewWorkout("name", e.target.value);
+                      // }}
+                      onChange={handleChange}
+                      name="name"
                       className="form-control input-default "
                       placeholder="Workout Name..."
                     />
                   </div>
                   <textarea
                     value={newWorkout.workoutDescription}
-                    onChange={(e) => {
-                      handleUpdateNewWorkout("workoutDescription", e.target.value);
-                    }}
+                    onChange={handleChange}
+                    name="workoutDescription"
                     className="form-control input-default "
                     placeholder="Workout Description..."
                   />
@@ -84,9 +123,8 @@ function FitnessCalendar({setCurrentPage}) {
                     <select
                       className="form-select type-dropdown"
                       value={newWorkout.workoutType}
-                      onChange={(e) => {
-                        handleUpdateNewWorkout("workoutType", e.target.value);
-                      }}
+                      onChange={handleChange}
+                      name={"workoutType"}
                     >
                       <option disabled value="">
                         {" "}
@@ -101,11 +139,10 @@ function FitnessCalendar({setCurrentPage}) {
                     <label>Start Time:</label>
                     <DatePicker
                       showTimeSelect
+                      name="startTime"
                       dateFormat="MMMM d, yyyy h:mm aa"
                       selected={newWorkout.startTime}
-                      onChange={(date) => {
-                        handleUpdateNewWorkout("startTime", date);
-                      }}
+                      onChange={handleDateChange}
                     />
                   </div>
                   <button
@@ -162,12 +199,4 @@ function FitnessCalendar({setCurrentPage}) {
     </div>
   );
 }
-{/*
-// for your consideration :D
-<div className="card font-weight-bold p-3" key={i}>
-    Name: {w.name} <br></br>
-    Type: {w.workoutType} <br></br>
-    Date: {moment(w.startTime).calendar()} <br></br>
-    <button className="btn btn-sm w-50 my-3 bg-danger text-light" onClick={handleDeleteWorkout}>delete</button>
-</div> */}
 export default FitnessCalendar;
