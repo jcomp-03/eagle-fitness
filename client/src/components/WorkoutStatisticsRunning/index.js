@@ -25,7 +25,7 @@ function WorkoutStatisticsRunning() {
   // chart options you want to specify
   const options = {
     chart: {
-        toolbar: false,
+      toolbar: false,
       background: "white",
       foreColor: "black",
       stacked: true,
