@@ -27,8 +27,8 @@ const typeDefs = gql`
     name: String
     workoutType: String
     workoutDescription: String,
-    startTime: Timestamp,
-    durationMinutes: Integer
+    # startTime: String,
+    # durationMinutes: Int
   }
 
   type Query {

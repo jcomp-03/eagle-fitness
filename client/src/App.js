@@ -31,6 +31,7 @@ import {
   faDownload,
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
+import WorkoutPlan from "./components/workoutPlan";
 library.add(
   fas,
   faDownload,
@@ -58,6 +59,7 @@ const client = new ApolloClient({
 
 function App() {
   const [currentPage, setCurrentPage] = useState("");
+  const [profileInfo, setProfileInfo] = useState({firstName: "", lastName: "", username: ""})
   return (
     <ApolloProvider client={client}>
       <div>
@@ -72,7 +74,7 @@ function App() {
                 path="*"
                 element={[
                   <Logo />,
-                  <Header currentPage={currentPage} />,
+                  <Header currentPage={currentPage} profileInfo={profileInfo} />,
                   <Sidebar />,
                 ]}
               ></Route>
@@ -82,16 +84,16 @@ function App() {
                 path="/dashboard"
                 element={<Dashboard setCurrentPage={setCurrentPage} />}
               />
-              <Route path="/calendar" element={<FitnessCalendar />} />
+              <Route path="/calendar" element={<FitnessCalendar setCurrentPage={setCurrentPage} />} />
               <Route
                 path="/profile"
-                element={<ProfilePage setCurrentPage={setCurrentPage} />}
+                element={<ProfilePage setCurrentPage={setCurrentPage} setProfileInfo={setProfileInfo} />}
               />
-              <Route path="/calendar" element={<FitnessCalendar />} />
               <Route
                 path="/workoutstatistics"
-                element={<WorkoutStatistics />}
+                element={<WorkoutStatistics setCurrentPage={setCurrentPage} />}
               />
+              <Route path="/workoutplan" element={<WorkoutPlan setCurrentPage={setCurrentPage}></WorkoutPlan>}></Route>
             </Routes>
           </div>
         </BrowserRouter>

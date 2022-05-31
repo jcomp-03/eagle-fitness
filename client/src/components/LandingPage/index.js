@@ -6,8 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
 import hero9 from '../../assets/images/hero-bg/eagle-hero.png';
+import auth from '../../utils/auth';
 
 const LandingPage = () => {
+  if(auth.loggedIn()) {
+    window.location.replace("/dashboard")
+  }
   return (
     <Fragment>
       <div className="hero-wrapper bg-composed-wrapper bg-premium-dark min-vh-100">

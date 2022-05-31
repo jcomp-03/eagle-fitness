@@ -1,9 +1,19 @@
+import { useQuery } from "@apollo/client";
 import React from "react";
 import { Link } from "react-router-dom";
 import auth from "../../utils/auth";
+import { QUERY_ME } from "../../utils/graphQL/queries";
 
 function Header({currentPage}) {
-
+// console.log(profileInfo)
+if(!auth.loggedIn()) {
+  window.location.replace("/")
+}
+const { loading, data } = useQuery(QUERY_ME);
+  if (loading) {
+    return(<div><strong>Please Wait...</strong></div>)
+  }
+  const me = data?.me;
   function logout() {
     auth.logout()
   }
@@ -27,9 +37,9 @@ function Header({currentPage}) {
                   <img src="images/profile/17.jpg" width="20" alt="" />
                   <div className="header-info">
                     <span className="text-black">
-                      <strong>Peter Parkur</strong>
+                      <strong>{me.username}</strong>
                     </span>
-                    <p className="fs-12 mb-0">Super Admin</p>
+                    <p className="fs-12 mb-0">{`${me.firstName} ${me.lastName}`}</p>
                   </div>
                 </a>
                 <div className="dropdown-menu dropdown-menu-right shadow">

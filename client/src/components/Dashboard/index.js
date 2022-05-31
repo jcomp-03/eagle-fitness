@@ -40,6 +40,8 @@ render () {
     window.location.replace("/login");
   }
   return (
+    <div className='content-body'>
+
     <div className="container-fluid">
       <div className="row">
         <div className="col-xl-6 col-xxl-12">
@@ -110,7 +112,7 @@ render () {
                     </div>
                   </div>
                 </div>
-                <div className="effect bg-secondary"></div>
+                <div className="effect bg-dark"></div>
               </div>
             </div>
             <div className="col-sm-6">
@@ -380,6 +382,7 @@ render () {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

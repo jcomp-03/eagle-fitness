@@ -5,7 +5,7 @@ import auth from "../../utils/auth";
 import { UPDATE_USER } from "../../utils/graphQL/mutations";
 import { QUERY_ME } from "../../utils/graphQL/queries";
 
-function ProfilePage({ setCurrentPage }) {
+function ProfilePage({ setCurrentPage, setProfileInfo }) {
   if (!auth.loggedIn()) {
     window.location.replace("/login");
   }
@@ -31,7 +31,7 @@ function ProfilePage({ setCurrentPage }) {
     event.preventDefault();
 
     try {
-      if (formState.value == "") {
+      if (formState.value === "") {
         console.log(formState.value);
       }
       await changeInfo({
