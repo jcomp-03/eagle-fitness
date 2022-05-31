@@ -60,12 +60,10 @@ const UserSchema = new Schema(
     },
     meals: [Meal.schema],
     workouts: [Workout.schema],
-    milesRun: [
-      3, 4, 3, 3, 5, 4, 4, 3, 2, 5, 5, 4, 3, 4, 3, 3, 5, 4, 6, 3, 2, 5, 5, 4, 3,
-    ],
-    milesCycled: [],
-    cumulativeMilesRun: [78, 83, 88, 92, 95],
-    cumulativeMilesCycled: [],
+    milesRun: [Number],
+    milesCycled: [Number],
+    cumulativeMilesRun: [Number],
+    cumulativeMilesCycled: [Number],
   },
   {
     toJSON: {
