@@ -40,3 +40,19 @@
 .content-body {
   background-color: #F9F9F9;
 }
+
+.type-dropdown {
+  border-radius: 1.25rem;
+  margin-top: 15px;
+  height: 56px;
+  width: 100%;
+  border: 1px solid #f0f1f5;
+  color: #495057;
+  font-size: 0.875rem;
+  font-weight: 400;
+  padding: 10px;
+}
+
+.date {
+  color: #0B2A97;
+}
