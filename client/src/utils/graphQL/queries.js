@@ -18,6 +18,7 @@ query me {
       ingredients
     }
     workouts {
+      _id
       name
       workoutType
       workoutDescription

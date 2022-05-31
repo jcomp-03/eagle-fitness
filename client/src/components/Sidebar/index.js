@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function Sidebar() {
+function Sidebar({currentPage}) {
+  console.log(currentPage)
   return (
     <div className="deznav">
       <div className="deznav-scroll">

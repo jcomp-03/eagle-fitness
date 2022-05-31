@@ -75,7 +75,7 @@ function App() {
                 element={[
                   <Logo />,
                   <Header currentPage={currentPage} profileInfo={profileInfo} />,
-                  <Sidebar />,
+                  <Sidebar currentPage={currentPage} />,
                 ]}
               ></Route>
             </Routes>

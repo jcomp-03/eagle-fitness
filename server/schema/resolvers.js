@@ -49,7 +49,7 @@ const resolvers = {
       return { token, user };
     },
     updateUser: async (parent, args, context) => {
-      console.log(args)
+      console.log(args);
       if (context.user) {
         const updatedUser = await User.findByIdAndUpdate(
           { _id: context.user._id },
@@ -89,12 +89,23 @@ const resolvers = {
       if (context.user) {
         const workout = await Workout.findById({ _id: args.workout });
         const newUserWorkout = await User.findByIdAndUpdate(
-          { _id: args.userId },
+          { _id: context.user._id },
           { $addToSet: { workouts: workout } },
           { new: true, runValidators: true }
         );
-        console.log(workout)
+        console.log(workout);
         return newUserWorkout;
+      }
+      throw new AuthenticationError("You must be logged in!");
+    },
+    deleteUserWorkout: async (parent, args, context) => {
+      if (context.user) {
+        const updatedUser = User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pull: {workouts: {_id: args.workout}} },
+          {new: true, runValidators: true}
+        );
+        return updatedUser
       }
       throw new AuthenticationError("You must be logged in!");
     },

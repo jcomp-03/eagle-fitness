@@ -1,16 +1,35 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import React from "react";
 import { Link } from "react-router-dom";
+import { DELETE_USER_WORKOUT } from "../../utils/graphQL/mutations";
 import { QUERY_ME } from "../../utils/graphQL/queries";
 
 function WorkoutPlan ({setCurrentPage}) {
   setCurrentPage("Workout Plan")
   const {data, loading} = useQuery(QUERY_ME)
+  const[deleteWorkout, {error}] = useMutation(DELETE_USER_WORKOUT)
+
   if (loading) {
     return(<div className="content-body"><h1>Please Wait...</h1></div>)
   }
   const workouts = data?.me.workouts
   console.log(workouts)
+
+  async function handleWorkoutDelete(event) {
+    // console.log(event.target.name)
+    const workoutId = event.target.name
+    try {
+      await deleteWorkout({
+        variables: {
+          workout: workoutId
+        }
+      })
+      window.location.reload()
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return(
     <div className="content-body">
 			<div className="container-fluid pt-0">
@@ -35,8 +54,8 @@ function WorkoutPlan ({setCurrentPage}) {
 										</div>
 									</div>
 									<div className="card-body tab-content pt-2">
-                    {workouts.map((workout) => (
-                      <div className="d-flex border-bottom flex-wrap pt-3 list-row align-items-center mb-2">
+                    {workouts.length > 0 ? workouts.map((workout) => (
+                      <div key={workout._id} className="d-flex border-bottom flex-wrap pt-3 list-row align-items-center mb-2">
                             <div className="col-xl-5 col-xxl-7 col-lg-6 col-sm-7 d-flex align-items-center">
                               {/* <div className="list-icon bg-light mr-3 mb-3">
                                 <p className="fs-24 text-black mb-0 mt-2">21</p>
@@ -68,52 +87,22 @@ function WorkoutPlan ({setCurrentPage}) {
                                   </svg>
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-right">
-                                  <a className="dropdown-item" href="javascript:void(0);">Delete</a>
+                                  <a className="dropdown-item" name={workout._id} onClick={handleWorkoutDelete} href="javascript:void(0);">Delete</a>
                                 </div>
+                                {error && (
+                                  <p className="text-danger">
+                                    There was a problem!
+                                  </p>
+                                )}
                               </div>
                             </div>
                       </div>
-                    ))}
+                    )) : <p className="text-center font-weight-bold">User has no saved workouts</p> }
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					{/* <div className="col-xl-3 col-xxl-4">	
-						<div className="row">	
-							<div className="col-xl-12">
-								<div className="card flex-xl-column flex-md-row flex-column">
-									<div className="card-body border-bottom pb-4 p-2 event-calender">
-										<input type='text' className="form-control d-none" id='datetimepicker1' />
-									</div>
-									<div className="card-body">
-										<h6 className="fs-16 text-black mb-4">Next week plan</h6>
-										<div className="d-flex mb-4 align-items-center">
-											<span className="date-icon mr-3">3</span>
-											<div>
-												<h6 className="fs-16"><a href="workout-statistic.html" className="text-black">Cardio Exercise</a></h6>
-												<span className="fs-14">12 Sets | 16mins</span>
-											</div>
-										</div>
-										<div className="d-flex mb-4 align-items-center">
-											<span className="date-icon mr-3">5</span>
-											<div>
-												<h6 className="fs-16"><a href="workout-statistic.html" className="text-black">Cycling Routine</a></h6>
-												<span className="fs-14">20Km target distances</span>
-											</div>
-										</div>
-										<div className="d-flex mb-4 align-items-center">
-											<span className="date-icon mr-3">16</span>
-											<div>
-												<h6 className="fs-16"><a href="workout-statistic.html" className="text-black">Cycling Routine</a></h6>
-												<span className="fs-14">20Km target distances</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> */}
 				</div>
             </div>
         </div>
