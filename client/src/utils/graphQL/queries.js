@@ -24,6 +24,10 @@ query me {
       workoutType
       workoutDescription
     }
+    milesRun
+    milesCycled
+    cumulativeMilesRun
+    cumulativeMilesCycled
   }
 }
 `

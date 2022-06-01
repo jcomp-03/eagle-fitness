@@ -161,8 +161,8 @@ export const DELETE_USER_MEAL = gql`
   }
 `;
 
-export const ADD_MILES_TO_WORKOUT_STATISTICS = gql`
-  mutation UpdateMilesRunOrCycled(
+export const ADD_MILES_TO_WORKOUT_STATS = gql`
+  mutation updateMilesRunOrCycled(
     $milesRun: [Int]
     $milesCycled: [Int]
     ) {
