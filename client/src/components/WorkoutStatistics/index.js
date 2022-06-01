@@ -4,6 +4,8 @@ import React from "react";
 import WorkoutStatisticsRunning from "../WorkoutStatisticsRunning";
 import WorkoutStatisticsCycling from "../WorkoutStatisticsCycling";
 import { Link } from "react-router-dom";
+
+
 function WorkoutStatistics({ setCurrentPage }) {
   setCurrentPage("Workout Statistics");
 

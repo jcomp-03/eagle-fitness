@@ -88,8 +88,6 @@ const typeDefs = gql`
       workoutDescription: String!
     ): Workout
 
-    addUserWorkout(workout: ID!): User
-
     deleteUserWorkout(workout: ID!): User
     addUserWorkout(userId: ID!, workout: ID!): User
 

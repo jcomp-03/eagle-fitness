@@ -134,29 +134,48 @@ export const UPDATE_USER = gql`
 `;
 
 export const DELETE_USER_WORKOUT = gql`
-mutation deleteUserWorkout($workout: ID!) {
-  deleteUserWorkout(workout: $workout) {
-    username
-    email
-    workouts {
-      name
-      workoutDescription
-      workoutType
+  mutation deleteUserWorkout($workout: ID!) {
+    deleteUserWorkout(workout: $workout) {
+      username
+      email
+      workouts {
+        name
+        workoutDescription
+        workoutType
+      }
     }
   }
-}
-`
+`;
 
 export const DELETE_USER_MEAL = gql`
-mutation deleteUserMeal($meal: ID!) {
-  deleteUserMeal(meal: $meal) {
-    username
-    email
-    meals {
-      mealName
-      ingredients
-      _id
+  mutation deleteUserMeal($meal: ID!) {
+    deleteUserMeal(meal: $meal) {
+      username
+      email
+      meals {
+        mealName
+        ingredients
+        _id
+      }
     }
   }
-}
-`
+`;
+
+export const ADD_MILES_TO_WORKOUT_STATISTICS = gql`
+  mutation UpdateMilesRunOrCycled(
+    $milesRun: [Int]
+    $milesCycled: [Int]
+    ) {
+    updateMilesRunOrCycled(
+      milesRun: $milesRun
+      milesCycled: $milesCycled
+      ) {
+      username
+      email
+      milesRun
+      milesCycled
+      cumulativeMilesRun
+      cumulativeMilesCycled
+    }
+  }
+`;
