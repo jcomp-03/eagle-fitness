@@ -32,6 +32,7 @@ import {
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import WorkoutPlan from "./components/workoutPlan";
+import { MealPlan } from "./components/mealPlan";
 library.add(
   fas,
   faDownload,
@@ -94,6 +95,7 @@ function App() {
                 element={<WorkoutStatistics setCurrentPage={setCurrentPage} />}
               />
               <Route path="/workoutplan" element={<WorkoutPlan setCurrentPage={setCurrentPage}></WorkoutPlan>}></Route>
+              <Route path="/mealPlan" element={<MealPlan setCurrentPage={setCurrentPage}></MealPlan>}></Route>
             </Routes>
           </div>
         </BrowserRouter>

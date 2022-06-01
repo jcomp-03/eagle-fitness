@@ -86,6 +86,8 @@ const typeDefs = gql`
     addUserWorkout(workout: ID!): User
 
     deleteUserWorkout(workout: ID!): User
+
+    deleteUserMeal(meal: ID!): User
   }
 `;
 

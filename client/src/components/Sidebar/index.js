@@ -32,10 +32,10 @@ function Sidebar({currentPage}) {
           </Link>
           </li>
           <li>
-            <a href="#" aria-expanded="false">
+            <Link to="/mealplan">
               <i className="flaticon-381-television"></i>
               <span className="nav-text">Meal Plan</span>
-            </a>
+            </Link>
           </li>
         </ul>
         <div className="add-menu-sidebar">

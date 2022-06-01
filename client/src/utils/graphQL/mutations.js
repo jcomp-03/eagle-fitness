@@ -146,3 +146,17 @@ mutation deleteUserWorkout($workout: ID!) {
   }
 }
 `
+
+export const DELETE_USER_MEAL = gql`
+mutation deleteUserMeal($meal: ID!) {
+  deleteUserMeal(meal: $meal) {
+    username
+    email
+    meals {
+      mealName
+      ingredients
+      _id
+    }
+  }
+}
+`

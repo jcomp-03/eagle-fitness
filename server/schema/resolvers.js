@@ -109,6 +109,17 @@ const resolvers = {
       }
       throw new AuthenticationError("You must be logged in!");
     },
+    deleteUserMeal: async (parent, args, context) => {
+      if (context.user) {
+        const updatedUser = User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pull: {meals: {_id: args.meal}} },
+          {new: true, runValidators: true}
+        );
+        return updatedUser
+      }
+      throw new AuthenticationError("You must be logged in!");
+    },
   },
 };
 
