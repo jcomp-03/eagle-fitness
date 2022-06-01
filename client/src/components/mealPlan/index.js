@@ -71,7 +71,7 @@ export function MealPlan({ setCurrentPage }) {
                               <p className="text-dark font-weight-bold fs-20">Ingredients: </p>
                               <span className="pr-3 d-flex">
                                 {meal.ingredients.map((ingredient) => (
-                                  <div><p className="mx-1">{ingredient}</p></div>
+                                  <div><p className="mx-1">* {ingredient}</p></div>
                                 ))}
                               </span>
                               {/* <div className="form-check">

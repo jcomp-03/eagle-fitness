@@ -58,6 +58,7 @@ function WorkoutPlan ({setCurrentPage}) {
                     {workouts.length > 0 ? workouts.map((workout) => (
                       <div key={workout._id} className="d-flex border-bottom flex-wrap pt-3 list-row align-items-center mb-2">
                             <div className="col-xl-5 col-xxl-7 col-lg-6 col-sm-7 d-flex align-items-center">
+                              
                               <div className="info mb-3">
                                 <h4 className="fs-20 "><a href="workout-statistic.html" className="text-black">{workout.name}</a></h4>
                                 <span className="pr-3">{workout.workoutDescription}</span>

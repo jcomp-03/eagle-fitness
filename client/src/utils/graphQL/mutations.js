@@ -65,8 +65,8 @@ export const ADD_MEAL = gql`
   }
 `;
 export const ADD_USER_MEAL = gql`
-  mutation addUserMeal($userId: ID!, $meal: ID!) {
-    addUserMeal(userId: $userId, meal: $meal) {
+  mutation addUserMeal($meal: ID!) {
+    addUserMeal(meal: $meal) {
       username
       email
       meals {
