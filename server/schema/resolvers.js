@@ -81,12 +81,13 @@ const resolvers = {
       }
       throw new AuthenticationError("You must be logged in!");
     },
-    addWorkout: async (parent, args) => {
-      const newWorkout = await Workout.create(args);
-      return newWorkout;
+     addWorkout: async (parent, args) => {
+       const newWorkout = await Workout.create(args);
+       return newWorkout;
     },
     addUserWorkout: async (parent, args, context) => {
       if (context.user) {
+        // const newWorkout = await Workout.create(args);
         const workout = await Workout.findById({ _id: args.workout });
         const newUserWorkout = await User.findByIdAndUpdate(
           { _id: context.user._id },

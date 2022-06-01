@@ -13,7 +13,7 @@ function WorkoutPlan ({setCurrentPage}) {
     return(<div className="content-body"><h1>Please Wait...</h1></div>)
   }
   const workouts = data?.me.workouts
-  console.log(workouts)
+  console.log(data)
 
   async function handleWorkoutDelete(event) {
     // console.log(event.target.name)

@@ -19,7 +19,7 @@ const { loading, data } = useQuery(QUERY_ME);
   }
 
   return (
-    <div className="header shadow-sm">
+    <div className="header">
       <div className="header-content">
         <nav className="navbar navbar-expand">
           <div className="collapse navbar-collapse justify-content-between">

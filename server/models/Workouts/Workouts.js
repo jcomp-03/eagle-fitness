@@ -14,14 +14,10 @@ const WorkoutSchema = new Schema(
       type: String,
       required: true,
     },
-    // startTime: {
-    //   type: Timestamp,
-    //   required: true
-    // },
-    // durationMinutes: {
-    //   type: Integer,
-    //   required: false
-    // }
+    startTime: {
+      type: String,
+      required: false
+    }
   }
 )
 
