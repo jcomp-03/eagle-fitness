@@ -2,13 +2,41 @@ import React, { useState, useEffect, Component } from 'react';
 
 import Chart from "react-apexcharts";
 import auth from '../../utils/auth';
+import { Link } from "react-router-dom";
+import {createHttpLink, useQuery} from "@apollo/client";
+import { QUERY_ME } from "../../utils/graphQL/queries";
+import {
+  ApolloClient,
+  InMemoryCache,
+} from '@apollo/client';
+import {setContext} from "@apollo/client/link/context";
+import moment from "moment";
 
 class Dashboard extends Component {
-
   constructor(props) {
     super(props);
 
-  this.state = {     
+    const httpLink = createHttpLink({
+      uri: "/graphql",
+    });
+
+    const authLink = setContext((_, { headers }) => {
+      const token = localStorage.getItem("id_token");
+      return {
+        headers: {
+          ...headers,
+          authorization: token ? `Bearer ${token}` : "",
+        },
+      };
+    });
+
+    this.client = new ApolloClient({
+      link: authLink.concat(httpLink),
+      cache: new InMemoryCache(),
+    });
+
+  this.state = {
+    me: null,
     options: {
       chart: {
         id: "basic-bar"
@@ -27,6 +55,20 @@ class Dashboard extends Component {
   this.props.setCurrentPage("Dashboard")
   }
 
+  doQuery = () => {
+    this.client
+      .query({
+        query: QUERY_ME
+      })
+      .then(result => {
+        this.setState({me: result.data.me})
+      });
+  }
+
+  componentDidMount() {
+    this.doQuery();
+  }
+
   // const [chartState, setChartState] = useState(initialChartState)
 
   // useEffect(() => {
@@ -34,7 +76,7 @@ class Dashboard extends Component {
   //   .then(res => res.json)
   //   .then(res => setChartState({...chartState, series: res.data}))
   // }, [])
- 
+
 render () {
   if (!auth.loggedIn()) {
     window.location.replace("/login");
@@ -71,10 +113,12 @@ render () {
                         </defs>
                       </svg>
                     </span>
+                    <Link to="/workoutPlan">
                     <div className="media-body">
-                      <p className="fs-14 mb-2">Weekly Progress</p>
-                      <span className="title text-black font-w600">42%</span>
+                      <p className="fs-14 mb-2">Workouts</p>
+                      <p><span className="title text-black font-w600">{this.state.me && this.state.me.workouts.length }</span> workouts scheduled</p>
                     </div>
+                  </Link>
                   </div>
                 </div>
                 <div className="effect bg-success"></div>

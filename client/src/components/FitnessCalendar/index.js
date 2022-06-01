@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,15 +16,22 @@ function FitnessCalendar({setCurrentPage}) {
     workoutType: "",
     workoutDescription: "",
   });
-  const [workouts, setWorkouts] = useState([]);
 
-  const {data, loading} = useQuery(QUERY_ME);
   const [saveWorkout] = useMutation(ADD_WORKOUT);
   const [addUserWorkout] = useMutation(ADD_USER_WORKOUT)
   const[deleteWorkout, {error}] = useMutation(DELETE_USER_WORKOUT)
 
-  const workoutsCreated = data?.me.workouts || [];
-  console.log("workoutsCreated", data)
+  const [workouts, setWorkouts] = useState([])
+
+  const {data, loading} = useQuery(QUERY_ME, {
+    onCompleted: (data) => {
+      setWorkouts(data?.me.workouts || [])
+    }
+  });
+
+  useEffect(() => {
+    const getData = data;
+  }, []);
 
   const handleUpdateNewWorkout = (key, val) => {
     const updatedWorkout = { ...newWorkout };
@@ -65,7 +72,7 @@ function FitnessCalendar({setCurrentPage}) {
         throw new Error('something went wrong!');
       }
 
-      setWorkouts([...workouts, newWorkout]);
+      setWorkouts([newWorkout, ...workouts]);
       setNewWorkout({
         name: "",
         workoutType: "",
@@ -177,7 +184,7 @@ function FitnessCalendar({setCurrentPage}) {
                     <p className="fs-13 mb-0 text-black">Lorem ipsum dolor sit amet, consectetur</p>
                   </div>
                 </div>
-                {workoutsCreated.slice(0, 3).map((w, i) => {
+                {workouts.slice(0, 3).map((w, i) => {
 
                   return (
                     <div className= "card p-3 d-flex container" key={i}>
@@ -203,7 +210,9 @@ function FitnessCalendar({setCurrentPage}) {
                 })}
                 <div className="row">
                   <div className="col d-flex justify-content-center pb-4">
-                    <button className= "btn btn-event btn-primary"> View More Here </button>
+                    <Link to="/workoutPlan">
+                      <button className= "btn btn-event btn-primary"> View More Here </button>
+                    </Link>
                   </div>
                 </div>
               </main>
