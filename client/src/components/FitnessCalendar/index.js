@@ -16,7 +16,6 @@ function FitnessCalendar({setCurrentPage}) {
     workoutType: "",
     workoutDescription: "",
   });
-  const [workouts, setWorkouts] = useState([]);
 
   const [saveWorkout] = useMutation(ADD_WORKOUT);
   const [addUserWorkout] = useMutation(ADD_USER_WORKOUT)
@@ -80,7 +79,7 @@ function FitnessCalendar({setCurrentPage}) {
         throw new Error('something went wrong!');
       }
 
-      setWorkouts([...workouts, newWorkout]);
+      setWorkouts([newWorkout, ...workouts]);
       setNewWorkout({
         name: "",
         workoutType: "",
