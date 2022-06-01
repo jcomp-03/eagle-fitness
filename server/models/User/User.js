@@ -67,8 +67,10 @@ const UserSchema = new Schema(
   },
   {
     toJSON: {
+      virtuals: true,
       getters: true,
     },
+    id: false
   }
 );
 
@@ -110,6 +112,7 @@ UserSchema.virtual("getCumulativeMilesRun").get(function () {
   // Just add all the values (i.e. miles) in the array milesRun
   const totalMilesRunToDate = this.milesRun.reduce((prev, curr) => prev + curr);
   // now, update the array cumulativeMilesRun by pushing latest tally of total miles
+  // this.cumulativeMilesRun = this.cumulativeMilesRun.push(totalMilesRunToDate);
   this.cumulativeMilesRun = [...this.cumulativeMilesRun, totalMilesRunToDate];
   // keep the array cumulativeMilesRun to a max length of 5
   if (this.cumulativeMilesRun.length > 5) {
@@ -121,6 +124,7 @@ UserSchema.virtual("getCumulativeMilesRun").get(function () {
   // return the array
   return this.cumulativeMilesRun;
 });
+
 
 UserSchema.pre("save", async function (next) {
   if (this.isNew || this.isModified("password")) {
@@ -136,5 +140,7 @@ UserSchema.methods.isCorrectPassword = async function (password) {
 };
 
 const User = model("user", UserSchema);
+
+// console.log(User.getCumulativeMilesRun())
 
 module.exports = User;
