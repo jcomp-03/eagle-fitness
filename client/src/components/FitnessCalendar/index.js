@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
-import auth from '../../utils/auth';
 import { Link } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
 import { QUERY_ME } from "../../utils/graphQL/queries";
@@ -37,6 +36,10 @@ function FitnessCalendar({setCurrentPage}) {
 
   const [saveWorkout, { error, data }] = useMutation(ADD_WORKOUT);
   const [addUserWorkout] = useMutation(ADD_USER_WORKOUT)
+  const[deleteWorkout, {error}] = useMutation(DELETE_USER_WORKOUT)
+
+  const workoutsCreated = data?.me.workouts || [];
+  console.log("workoutsCreated", data)
 
   const handleUpdateNewWorkout = (key, val) => {
     const updatedWorkout = { ...newWorkout };
@@ -149,9 +152,6 @@ function FitnessCalendar({setCurrentPage}) {
                     <input
                       type="text"
                       value={newWorkout.name}
-                      // onChange={() => {
-                      //   handleUpdateNewWorkout("name", e.target.value);
-                      // }}
                       onChange={handleChange}
                       name="name"
                       className="form-control input-default "
