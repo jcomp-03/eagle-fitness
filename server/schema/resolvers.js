@@ -7,7 +7,12 @@ const resolvers = {
     me: async (parent, __, context) => {
       if (context.user) {
         // Must use findById to find a single entry
-        const userData = await User.findById({ _id: context.user._id });
+        const userData = await User.findById({ _id: context.user._id })
+        .populate('milesRun')
+        .populate('cumulativeMilesRun')
+        .populate('milesCycled')
+        .populate('cumulativeMilesCycled');
+
         if (!userData) {
           throw new Error("No user found!");
         }
@@ -16,7 +21,11 @@ const resolvers = {
       throw new AuthenticationError("You must be logged in!");
     },
     us: async () => {
-      return User.find();
+      return User.find()
+      .populate('milesRun')
+      .populate('cumulativeMilesRun')
+      .populate('milesCycled')
+      .populate('cumulativeMilesCycled');
     },
     meals: async () => {
       return Meal.find();
@@ -109,6 +118,24 @@ const resolvers = {
       }
       throw new AuthenticationError("You must be logged in!");
     },
+    updateMilesRunOrCycled: async (parent, args, context) => {
+      console.log(args);
+
+      if (context.user) {
+        const updatedUser = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { 
+            $push: { milesRun: args.milesRun, milesCycled: args.milesCycled }
+          },
+          { new: true }
+        );
+
+        console.log(updatedUser.getCumulativeMilesRun)
+
+        return updatedUser;
+      }
+      throw new AuthenticationError("Must be logged in!");
+    }
   },
 };
 
