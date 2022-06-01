@@ -6,14 +6,14 @@ import { QUERY_ME } from "../../utils/graphQL/queries";
 
 function WorkoutPlan ({setCurrentPage}) {
   setCurrentPage("Workout Plan")
-  const {data, loading} = useQuery(QUERY_ME)
   const[deleteWorkout, {error}] = useMutation(DELETE_USER_WORKOUT)
+  const {data, loading} = useQuery(QUERY_ME)
 
   if (loading) {
     return(<div className="content-body"><h1>Please Wait...</h1></div>)
   }
   const workouts = data?.me.workouts
-  console.log(workouts)
+  console.log(data)
 
   async function handleWorkoutDelete(event) {
     // console.log(event.target.name)
@@ -57,10 +57,6 @@ function WorkoutPlan ({setCurrentPage}) {
                     {workouts.length > 0 ? workouts.map((workout) => (
                       <div key={workout._id} className="d-flex border-bottom flex-wrap pt-3 list-row align-items-center mb-2">
                             <div className="col-xl-5 col-xxl-7 col-lg-6 col-sm-7 d-flex align-items-center">
-                              {/* <div className="list-icon bg-light mr-3 mb-3">
-                                <p className="fs-24 text-black mb-0 mt-2">21</p>
-                                <span className="fs-14 text-black">Tue</span>
-                              </div> */}
                               <div className="info mb-3">
                                 <h4 className="fs-20 "><a href="workout-statistic.html" className="text-black">{workout.name}</a></h4>
                                 <span className="pr-3">{workout.workoutDescription}</span>

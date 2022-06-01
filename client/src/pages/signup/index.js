@@ -54,7 +54,7 @@ const SignUp = () => {
                             <div className="col-xl-12">
                                 <div className="auth-form">
 									<div className="text-center mb-3">
-										<a href="index.html"><img src="images/logo-full.png" alt=""></img></a>
+										<a href="index.html"><img src="images/logo-full-h.png" alt=""></img></a>
 									</div>
                                     <h4 className="text-center mb-4 text-white">Sign up</h4>
                                     <div className="new-account mt-3">

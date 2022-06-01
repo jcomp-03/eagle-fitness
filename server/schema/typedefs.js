@@ -31,7 +31,7 @@ const typeDefs = gql`
     name: String
     workoutType: String
     workoutDescription: String,
-    # startTime: String,
+    startTime: String,
     # durationMinutes: Int
   }
 
@@ -97,6 +97,8 @@ const typeDefs = gql`
       milesRun: [Int]
       milesCycled: [Int]
     ): User
+
+    deleteUserMeal(meal: ID!): User
   }
 `;
 
