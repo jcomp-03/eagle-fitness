@@ -82,16 +82,19 @@ export const ADD_WORKOUT = gql`
     $name: String!
     $workoutDescription: String!
     $workoutType: String!
+    $startTime: String!
   ) {
     addWorkout(
       name: $name
       workoutDescription: $workoutDescription
       workoutType: $workoutType
+      startTime: $startTime
     ) {
       _id
       name
       workoutType
       workoutDescription
+      startTime
     }
   }
 `;

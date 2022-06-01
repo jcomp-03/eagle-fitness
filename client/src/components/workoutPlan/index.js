@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { DELETE_USER_WORKOUT } from "../../utils/graphQL/mutations";
 import { QUERY_ME } from "../../utils/graphQL/queries";
+import moment from "moment"
 
 function WorkoutPlan ({setCurrentPage}) {
   setCurrentPage("Workout Plan")
@@ -72,7 +73,7 @@ function WorkoutPlan ({setCurrentPage}) {
                             <div className="col-xl-2 col-xxl-3 col-lg-2 col-sm-3 activities mb-3 mr-auto pl-3 pr-3 text-sm-center col-6">
                               <span className="text-dark ml-2"><strong>Type: {workout.workoutType}</strong></span> <br></br>
                               {/* if the big date elements ends up not being used */}
-                              <span className="text-dark ml-2">Start Time: DATA.START</span>
+                              <span className="text-dark ml-2">Start Time: {moment(workout.startTime).calendar()} </span>
                             </div>
                             <div className="col-xl-5 col-xxl-2 col-lg-4 col-sm-2 d-flex align-items-center col-6">
                               <div className="dropdown more-dropdown mb-3">
