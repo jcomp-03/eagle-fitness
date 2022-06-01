@@ -164,7 +164,7 @@ function FitnessCalendar({setCurrentPage}) {
                 <div className="card-header d-sm-flex flex-wrap d-block border-0 mb-4">
                   <div className="mr-auto pr-3 mb-3">
                     <h4 className="text-black fs-20">Plan List</h4>
-                    <p className="fs-13 mb-0 text-black">Lorem ipsum dolor sit amet, consectetur</p>
+                    {workouts.length > 0 ? <p className="fs-13 mb-0 text-black">See your workouts!</p> : <p className="fs-13 mb-0 text-black">You should add a workout!</p>}
                   </div>
                 </div>
                 {workouts.map((w, i) => {

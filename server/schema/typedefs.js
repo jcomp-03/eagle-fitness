@@ -75,7 +75,7 @@ const typeDefs = gql`
 
     # Must add meal before UserMeal
 
-    addUserMeal(userId: ID!, meal: ID!): User
+    addUserMeal(meal: ID!): User
 
     addWorkout(
       name: String!

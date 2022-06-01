@@ -70,10 +70,10 @@ const resolvers = {
       if (context.user) {
         const meal = await Meal.findById({ _id: args.meal });
         if (!meal) {
-          throw new Error("This meal does not exist inthe database");
+          throw new Error("This meal does not exist in the database");
         }
         const newUserMeal = await User.findByIdAndUpdate(
-          { _id: args.userId },
+          { _id: context.user._id },
           { $addToSet: { meals: meal } },
           { new: true, runValidators: true }
         );
