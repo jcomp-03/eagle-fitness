@@ -81,6 +81,7 @@ const typeDefs = gql`
       name: String!
       workoutType: String!
       workoutDescription: String!
+      startTime: String!
     ): Workout
 
     addUserWorkout(workout: ID!): User

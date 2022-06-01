@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
-import auth from '../../utils/auth';
 import { Link } from "react-router-dom";
-import { useMutation } from "@apollo/client";
-import {ADD_USER_WORKOUT, ADD_WORKOUT} from "../../utils/graphQL/mutations";
+import { useMutation, useQuery } from "@apollo/client";
+import { QUERY_ME } from "../../utils/graphQL/queries";
+import {ADD_USER_WORKOUT, ADD_WORKOUT, DELETE_USER_WORKOUT} from "../../utils/graphQL/mutations";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
@@ -18,8 +18,13 @@ function FitnessCalendar({setCurrentPage}) {
   });
   const [workouts, setWorkouts] = useState([]);
 
-  const [saveWorkout, { error, data }] = useMutation(ADD_WORKOUT);
+  const {data, loading} = useQuery(QUERY_ME);
+  const [saveWorkout] = useMutation(ADD_WORKOUT);
   const [addUserWorkout] = useMutation(ADD_USER_WORKOUT)
+  const[deleteWorkout, {error}] = useMutation(DELETE_USER_WORKOUT)
+
+  const workoutsCreated = data?.me.workouts || [];
+  console.log("workoutsCreated", data)
 
   const handleUpdateNewWorkout = (key, val) => {
     const updatedWorkout = { ...newWorkout };
@@ -72,12 +77,20 @@ function FitnessCalendar({setCurrentPage}) {
     }
   };
 
-  const handleDeleteWorkout = (i) => {
-    // TODO: Handle submitting delete request to api
-    const updatedWorkouts = [...workouts];
-    updatedWorkouts.splice(i);
-    setWorkouts(updatedWorkouts);
-  };
+  async function handleWorkoutDelete(event) {
+    // console.log(event.target.name)
+    const workoutId = event.target.name
+    try {
+      await deleteWorkout({
+        variables: {
+          workout: workoutId
+        }
+      })
+      window.location.reload()
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div className="content-body">
@@ -95,7 +108,7 @@ function FitnessCalendar({setCurrentPage}) {
 
         <div className="row">
           <div className="col-xl-4">
-            <div className="card">
+            <div className="card calendar-siderbar">
               <div className="card-body">
                 <h4 className="card-intro-title">Add a Workout</h4>
                 <div>
@@ -103,9 +116,6 @@ function FitnessCalendar({setCurrentPage}) {
                     <input
                       type="text"
                       value={newWorkout.name}
-                      // onChange={() => {
-                      //   handleUpdateNewWorkout("name", e.target.value);
-                      // }}
                       onChange={handleChange}
                       name="name"
                       className="form-control input-default "
@@ -167,7 +177,7 @@ function FitnessCalendar({setCurrentPage}) {
                     <p className="fs-13 mb-0 text-black">Lorem ipsum dolor sit amet, consectetur</p>
                   </div>
                 </div>
-                {workouts.map((w, i) => {
+                {workoutsCreated.slice(0, 3).map((w, i) => {
 
                   return (
                     <div className= "card p-3 d-flex container" key={i}>
@@ -185,12 +195,17 @@ function FitnessCalendar({setCurrentPage}) {
                       </div>
                       <div className="row">
                         <div className="col d-flex justify-content-end">
-                          <button className= "btn btn-danger" onClick={handleDeleteWorkout}>delete  <FontAwesomeIcon icon="fa-solid fa-trash" /></button>
+                          <button className= "btn btn-danger"  name={w._id} onClick={handleWorkoutDelete}>delete  <FontAwesomeIcon icon="fa-solid fa-trash" /></button>
                         </div>
                       </div>
                     </div>
                   );
                 })}
+                <div className="row">
+                  <div className="col d-flex justify-content-center pb-4">
+                    <button className= "btn btn-event btn-primary"> View More Here </button>
+                  </div>
+                </div>
               </main>
             </div>
           </div>

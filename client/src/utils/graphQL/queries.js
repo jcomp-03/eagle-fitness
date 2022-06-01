@@ -23,6 +23,7 @@ query me {
       name
       workoutType
       workoutDescription
+      startTime
     }
   }
 }
@@ -63,6 +64,7 @@ query workouts {
     name
     workoutDescription
     workoutType
+    startTime
   }
 }
 `
