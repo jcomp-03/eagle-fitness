@@ -35,9 +35,9 @@ function WorkoutStatistics({ setCurrentPage }) {
     runningData: [],
     cyclingData: [],
   });
-  setChartData({
-    me.miles
-  })
+  // setChartData({
+  //   // me.miles
+  // })
   console.log(chartData)
 
   // create JavaScript function updateMiles that wraps around
