@@ -12,7 +12,7 @@ export function DashboardMeals() {
 
   // function getRecepies() {
   useEffect(()=> {
-    fetch("https://api.spoonacular.com/recipes/complexSearch?fillIngredients=true&maxCalories=100&number=10&apiKey=1bd3421ddb074defbade8ad76e9f13e")
+    fetch("https://api.spoonacular.com/recipes/complexSearch?fillIngredients=true&maxCalories=100&number=10&apiKey=c8e56dca2ebb42b780c7528cbcb33a8a")
     .then(response => {
       if (response.ok) {
         return response.json()
@@ -75,7 +75,7 @@ export function DashboardMeals() {
         }
       })
 
-      window.location.replace('/profile')
+      window.location.replace('/mealplan')
     } catch (error) {
       console.error(error)
     }

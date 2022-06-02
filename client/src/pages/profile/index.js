@@ -131,7 +131,7 @@ function ProfilePage({ setCurrentPage, setProfileInfo }) {
                     </div>
                   </div>
                   <div className="profile-statistics mb-5">
-                    <div className="text-center">
+                    <div id="mealPlan" className="text-center">
                       <div className="row justify-content-center">
                         <h4 className="text-center">
                           {`${me.firstName}'s`} Meal Plan
