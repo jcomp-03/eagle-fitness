@@ -2,19 +2,14 @@ import React from "react";
 // import ApexCharts from "apexcharts";
 import Chart from "react-apexcharts";
 
-function WorkoutStatisticsCycling() {
+function WorkoutStatisticsCycling({ chartData }) {
   // data values to plot and name
   const series = [
     {
       type: "line", // render line chart for cumulative miles
       name: "Cumul. Miles",
-      data: [7, 13, 21, 27, 33, 43, 50, 55, 64],
-    },
-    {
-      type: "bar", // render bar chart for weekly miles run
-      name: "Weekly Distance",
-      data: [7, 6, 8, 6, 6, 10, 7, 5, 9],
-    },
+      data: [1,2,3,4,5,6],
+    }
   ];
 
   // chart options you want to specify
@@ -66,29 +61,29 @@ function WorkoutStatisticsCycling() {
         },
       },
       // this object is for weekly distance covered
-      {
-        opposite: true,
-        axisTicks: {
-          show: true,
-        },
-        axisBorder: {
-          show: true,
-          //   color: "#247BA0",
-        },
-        labels: {
-          style: {
-            // colors: "#247BA0",
-            fontSize: "16px",
-          },
-        },
-        title: {
-          text: series[1].name,
-          style: {
-            // color: "#247BA0",
-            fontSize: "16px",
-          },
-        },
-      },
+      // {
+      //   opposite: true,
+      //   axisTicks: {
+      //     show: true,
+      //   },
+      //   axisBorder: {
+      //     show: true,
+      //     //   color: "#247BA0",
+      //   },
+      //   labels: {
+      //     style: {
+      //       // colors: "#247BA0",
+      //       fontSize: "16px",
+      //     },
+      //   },
+      //   title: {
+      //     text: series[1].name,
+      //     style: {
+      //       // color: "#247BA0",
+      //       fontSize: "16px",
+      //     },
+      //   },
+      // },
     ],
     legend: {
       show: false,
