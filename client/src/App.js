@@ -13,7 +13,7 @@ import './assets/base.scss';
 import "./App.css";
 
 import {
-    BrowserRouter as Router, // renamed as Router to follow the module's style
+    BrowserRouter,
     Routes,
     Route,
 } from "react-router-dom";
@@ -63,7 +63,8 @@ function App() {
   const [profileInfo, setProfileInfo] = useState({firstName: "", lastName: "", username: ""})
   return (
     <ApolloProvider client={client}>
-        <Router>
+      <div>
+        <BrowserRouter>
           <div>
             <Routes>
               <Route path="/landing" element={<Landing />} />
@@ -99,7 +100,8 @@ function App() {
             </Routes>
 
           </div>
-        </Router>
+        </BrowserRouter>
+      </div>
     </ApolloProvider>
   );
 }

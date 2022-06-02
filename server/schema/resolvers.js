@@ -142,7 +142,7 @@ const resolvers = {
           { new: true }
         );
 
-        console.log(updatedUser.getCumulativeMilesRun)
+        // console.log(updatedUser.getCumulativeMilesRun)
 
         return updatedUser;
       }

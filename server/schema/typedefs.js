@@ -89,16 +89,15 @@ const typeDefs = gql`
       startTime: String!
     ): Workout
 
-    addUserWorkout(workout: ID!): User
-
     deleteUserWorkout(workout: ID!): User
-
-    deleteUserMeal(meal: ID!): User
+    addUserWorkout(userId: ID!, workout: ID!): User
 
     updateMilesRunOrCycled(
       milesRun: [Int]
       milesCycled: [Int]
     ): User
+
+    deleteUserMeal(meal: ID!): User
   }
 `;
 
