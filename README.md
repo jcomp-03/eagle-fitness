@@ -43,7 +43,7 @@ Fitness management app for Coaches and Gyms
  
 <br  />
 
-<a  <repo URL here">
+<a  href="https://github.com/Alexnj1/eagle-fitness">
 
 <strong>Explore the docs</strong>
 
@@ -220,7 +220,7 @@ Project Link: [https://github.com/Alexnj1/eagle-fitness](https://github.com/Alex
 
 <!-- MARKDOWN LINKS & IMAGES -->
 
-[product-screenshot1]: ./public/assets/images/screenshot_1.png
+[product-screenshot1]: ./client/public/images/screenshot_1.png
 
 
 
