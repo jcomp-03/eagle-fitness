@@ -103,7 +103,7 @@ function WorkoutStatisticsCycling({ chartData }) {
   };
 
   return (
-    <div className="mx-1 col-3 col-xl-4 col-lg-5 border border-info border-2">
+    <div className="mx-1 col-3 col-xl-4 col-lg-5">
     <div className="card">
         <div className="card-header pb-0 border-0">
           <span className="p-3 mr-3 rounded bg-secondary">
