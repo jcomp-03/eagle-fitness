@@ -33,13 +33,6 @@ function FitnessCalendar({setCurrentPage}) {
     const getData = data;
   }, []);
 
-  const [saveWorkout, { error, data }] = useMutation(ADD_WORKOUT);
-  const [addUserWorkout] = useMutation(ADD_USER_WORKOUT)
-  const[deleteWorkout, {error}] = useMutation(DELETE_USER_WORKOUT)
-
-  const workoutsCreated = data?.me.workouts || [];
-  console.log("workoutsCreated", data)
-
   const handleUpdateNewWorkout = (key, val) => {
     const updatedWorkout = { ...newWorkout };
     updatedWorkout[key] = val;
@@ -47,11 +40,11 @@ function FitnessCalendar({setCurrentPage}) {
   };
 
   function handleChange(e) {
-      let { name, value } = e.target;
-      setNewWorkout({
-        ...newWorkout,
-        [name]: value,
-      });
+    let { name, value } = e.target;
+    setNewWorkout({
+      ...newWorkout,
+      [name]: value,
+    });
   }
 
   function handleDateChange(dateString) {
@@ -69,27 +62,6 @@ function FitnessCalendar({setCurrentPage}) {
       const {data} = await saveWorkout({
         variables: {...newWorkout},
       });
-
-      await addUserWorkout({
-        variables:{workout: data.addWorkout._id}
-      })
-
-
-      if (!data) {
-        throw new Error('something went wrong!');
-      }
-
-      setWorkouts([newWorkout, ...workouts]);
-      setNewWorkout({
-        name: "",
-        workoutType: "",
-        workoutDescription: "",
-        startTime: null
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
       await addUserWorkout({
         variables:{workout: data.addWorkout._id}
