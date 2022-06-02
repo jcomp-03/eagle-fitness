@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
@@ -16,15 +16,22 @@ function FitnessCalendar({setCurrentPage}) {
     workoutType: "",
     workoutDescription: "",
   });
-  const [workouts, setWorkouts] = useState([]);
 
-  const {data, loading} = useQuery(QUERY_ME);
   const [saveWorkout] = useMutation(ADD_WORKOUT);
   const [addUserWorkout] = useMutation(ADD_USER_WORKOUT)
   const[deleteWorkout, {error}] = useMutation(DELETE_USER_WORKOUT)
 
-  const workoutsCreated = data?.me.workouts || [];
-  console.log("workoutsCreated", data)
+  const [workouts, setWorkouts] = useState([])
+
+  const {data, loading} = useQuery(QUERY_ME, {
+    onCompleted: (data) => {
+      setWorkouts(data?.me.workouts || [])
+    }
+  });
+
+  useEffect(() => {
+    const getData = data;
+  }, []);
 
   const handleUpdateNewWorkout = (key, val) => {
     const updatedWorkout = { ...newWorkout };
@@ -65,7 +72,7 @@ function FitnessCalendar({setCurrentPage}) {
         throw new Error('something went wrong!');
       }
 
-      setWorkouts([...workouts, newWorkout]);
+      setWorkouts([newWorkout, ...workouts]);
       setNewWorkout({
         name: "",
         workoutType: "",
@@ -171,31 +178,29 @@ function FitnessCalendar({setCurrentPage}) {
           <div className="Sample col-8">
             <div className="calendar-container">
               <main className="calendar_container_content">
-                <div className="card-header d-sm-flex flex-wrap d-block border-0 mb-4">
-                  <div className="mr-auto pr-3 mb-3">
-                    <h4 className="text-black fs-20">Plan List</h4>
+                <div className="card-header d-sm-flex flex-wrap d-block mb-1">
+                  <div className="mr-auto pr-3">
+                    <h4 className="text-black fs-20">Planned Workouts</h4>
                     {workouts.length > 0 ? <p className="fs-13 mb-0 text-black">See your workouts!</p> : <p className="fs-13 mb-0 text-black">You should add a workout!</p>}
                   </div>
                 </div>
-                {workoutsCreated.slice(0, 3).map((w, i) => {
+                {workouts.slice(0, 4).map((w, i) => {
 
                   return (
-                    <div className= "card p-3 d-flex container" key={i}>
+                    <div className= "card p-2 d-flex" key={i}>
                       <div className= "row">
                         <div className="col-3 d-flex">
-                         <h4 className="date"> {moment(w.startTime).calendar()} </h4>
+                         <h5 className="date"> {moment(w.startTime).calendar()} </h5>
                         </div>
-                        <div className="col-6">
-                          <h3> {w.name} </h3>
+                        <div className="col-3">
+                          <h5> {w.name} </h5>
                           {w.workoutDescription}
                         </div>
                         <div className="col-3">
                           {w.workoutType}
                         </div>
-                      </div>
-                      <div className="row">
-                        <div className="col d-flex justify-content-end">
-                          <button className= "btn btn-danger"  name={w._id} onClick={handleWorkoutDelete}>delete  <FontAwesomeIcon icon="fa-solid fa-trash" /></button>
+                        <div className="col-3">
+                          <button className= "btn btn-danger btn-sm"  name={w._id} onClick={handleWorkoutDelete}>delete  <FontAwesomeIcon icon="fa-solid fa-trash" /></button>
                         </div>
                       </div>
                     </div>
@@ -203,7 +208,9 @@ function FitnessCalendar({setCurrentPage}) {
                 })}
                 <div className="row">
                   <div className="col d-flex justify-content-center pb-4">
-                    <button className= "btn btn-event btn-primary"> View More Here </button>
+                    <Link to="/workoutPlan">
+                      <button className= "btn btn-event btn-primary"> View More Here </button>
+                    </Link>
                   </div>
                 </div>
               </main>
