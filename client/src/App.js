@@ -13,7 +13,7 @@ import './assets/base.scss';
 import "./App.css";
 
 import {
-    BrowserRouter,
+    BrowserRouter as Router, // renamed as Router to follow the module's style
     Routes,
     Route,
 } from "react-router-dom";
@@ -32,6 +32,7 @@ import {
   faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import WorkoutPlan from "./components/workoutPlan";
+import { MealPlan } from "./components/mealPlan";
 library.add(
   fas,
   faDownload,
@@ -62,8 +63,7 @@ function App() {
   const [profileInfo, setProfileInfo] = useState({firstName: "", lastName: "", username: ""})
   return (
     <ApolloProvider client={client}>
-      <div>
-        <BrowserRouter>
+        <Router>
           <div>
             <Routes>
               <Route path="/landing" element={<Landing />} />
@@ -95,11 +95,11 @@ function App() {
                 element={<WorkoutStatistics setCurrentPage={setCurrentPage} />}
               />
               <Route path="/workoutplan" element={<WorkoutPlan setCurrentPage={setCurrentPage}></WorkoutPlan>}></Route>
+              <Route path="/mealPlan" element={<MealPlan setCurrentPage={setCurrentPage}></MealPlan>}></Route>
             </Routes>
 
           </div>
-        </BrowserRouter>
-      </div>
+        </Router>
     </ApolloProvider>
   );
 }

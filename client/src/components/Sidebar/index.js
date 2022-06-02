@@ -32,16 +32,18 @@ function Sidebar({currentPage}) {
           </Link>
           </li>
           <li>
-            <a href="#" aria-expanded="false">
+            <Link to="/mealplan">
               <i className="flaticon-381-television"></i>
               <span className="nav-text">Meal Plan</span>
-            </a>
+            </Link>
           </li>
         </ul>
+        <Link to="/calendar">
         <div className="add-menu-sidebar">
           <img src="images/calendar.png" alt="" className="mr-3" />
           <p className="font-w500 mb-0">Create Workout Plan Now</p>
         </div>
+        </Link>
         <div className="copyright">
           <p>
             <strong>Eagle Fitness</strong> © 2022 All Rights

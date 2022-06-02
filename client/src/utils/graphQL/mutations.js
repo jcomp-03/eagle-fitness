@@ -65,8 +65,8 @@ export const ADD_MEAL = gql`
   }
 `;
 export const ADD_USER_MEAL = gql`
-  mutation addUserMeal($userId: ID!, $meal: ID!) {
-    addUserMeal(userId: $userId, meal: $meal) {
+  mutation addUserMeal($meal: ID!) {
+    addUserMeal(meal: $meal) {
       username
       email
       meals {
@@ -82,22 +82,25 @@ export const ADD_WORKOUT = gql`
     $name: String!
     $workoutDescription: String!
     $workoutType: String!
+    $startTime: String!
   ) {
     addWorkout(
       name: $name
       workoutDescription: $workoutDescription
       workoutType: $workoutType
+      startTime: $startTime
     ) {
       _id
       name
       workoutType
       workoutDescription
+      startTime
     }
   }
 `;
 export const ADD_USER_WORKOUT = gql`
-  mutation addUserWorkout($userId: ID!, $workout: ID!) {
-    addUserWorkout(userId: $userId, workout: $workout) {
+  mutation addUserWorkout($workout: ID!) {
+    addUserWorkout(workout: $workout) {
       username
       email
       meals {
@@ -142,6 +145,20 @@ mutation deleteUserWorkout($workout: ID!) {
       name
       workoutDescription
       workoutType
+    }
+  }
+}
+`
+
+export const DELETE_USER_MEAL = gql`
+mutation deleteUserMeal($meal: ID!) {
+  deleteUserMeal(meal: $meal) {
+    username
+    email
+    meals {
+      mealName
+      ingredients
+      _id
     }
   }
 }

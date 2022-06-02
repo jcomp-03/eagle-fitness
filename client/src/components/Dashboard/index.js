@@ -2,13 +2,42 @@ import React, { useState, useEffect, Component } from 'react';
 
 import Chart from "react-apexcharts";
 import auth from '../../utils/auth';
+import { DashboardMeals } from '../DashboardMeals';
+import { Link } from "react-router-dom";
+import {createHttpLink, useQuery} from "@apollo/client";
+import { QUERY_ME } from "../../utils/graphQL/queries";
+import {
+  ApolloClient,
+  InMemoryCache,
+} from '@apollo/client';
+import {setContext} from "@apollo/client/link/context";
+import moment from "moment";
 
 class Dashboard extends Component {
-
   constructor(props) {
     super(props);
 
-  this.state = {     
+    const httpLink = createHttpLink({
+      uri: "/graphql",
+    });
+
+    const authLink = setContext((_, { headers }) => {
+      const token = localStorage.getItem("id_token");
+      return {
+        headers: {
+          ...headers,
+          authorization: token ? `Bearer ${token}` : "",
+        },
+      };
+    });
+
+    this.client = new ApolloClient({
+      link: authLink.concat(httpLink),
+      cache: new InMemoryCache(),
+    });
+
+  this.state = {
+    me: null,
     options: {
       chart: {
         id: "basic-bar"
@@ -27,6 +56,20 @@ class Dashboard extends Component {
   this.props.setCurrentPage("Dashboard")
   }
 
+  doQuery = () => {
+    this.client
+      .query({
+        query: QUERY_ME
+      })
+      .then(result => {
+        this.setState({me: result.data.me})
+      });
+  }
+
+  componentDidMount() {
+    this.doQuery();
+  }
+
   // const [chartState, setChartState] = useState(initialChartState)
 
   // useEffect(() => {
@@ -34,52 +77,18 @@ class Dashboard extends Component {
   //   .then(res => res.json)
   //   .then(res => setChartState({...chartState, series: res.data}))
   // }, [])
- 
+
 render () {
   if (!auth.loggedIn()) {
     window.location.replace("/login");
   }
   return (
-    <div className='content-body'>
+  <div className='content-body'>
 
     <div className="container-fluid">
       <div className="row">
         <div className="col-xl-6 col-xxl-12">
           <div className="row">
-            <div className="col-sm-6">
-              <div className="card avtivity-card">
-                <div className="card-body">
-                  <div className="media align-items-center">
-                    <span className="activity-icon bgl-success mr-md-4 mr-3">
-                      <svg
-                        width="40"
-                        height="40"
-                        viewBox="0 0 40 40"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <g clipPath="url(#clip2)">
-                          <path
-                            d="M14.6406 24.384C14.4639 24.1871 14.421 23.904 14.5305 23.6633C15.9635 20.513 14.4092 18.7501 14.564 11.6323C14.5713 11.2944 14.8346 10.9721 15.2564 10.9801C15.6201 10.987 15.905 11.2962 15.8971 11.6598C15.8902 11.9762 15.8871 12.2939 15.8875 12.6123C15.888 12.9813 16.1893 13.2826 16.5583 13.2776C17.6426 13.2628 19.752 12.9057 20.5684 10.4567L20.9744 9.23876C21.7257 6.9847 20.4421 4.55115 18.1335 3.91572L13.9816 2.77294C12.3274 2.31768 10.5363 2.94145 9.52387 4.32498C4.66826 10.9599 1.44452 18.5903 0.0754914 26.6727C-0.300767 28.8937 0.754757 31.1346 2.70222 32.2488C13.6368 38.5051 26.6023 39.1113 38.35 33.6379C39.3524 33.1709 40.0002 32.1534 40.0002 31.0457V19.1321C40.0002 18.182 39.5322 17.2976 38.7484 16.7664C34.5339 13.91 29.1672 14.2521 25.5723 18.0448C25.2519 18.3828 25.3733 18.937 25.8031 19.1166C27.4271 19.7957 28.9625 20.7823 30.2439 21.9475C30.5225 22.2008 30.542 22.6396 30.2654 22.9155C30.0143 23.1658 29.6117 23.1752 29.3485 22.9376C25.9907 19.9053 21.4511 18.5257 16.935 19.9686C16.658 20.0571 16.4725 20.3193 16.477 20.61C16.496 21.8194 16.294 22.9905 15.7421 24.2172C15.5453 24.6544 14.9607 24.7409 14.6406 24.384Z"
-                            fill="#27BC48"
-                          />
-                        </g>
-                        <defs>
-                          <clipPath id="clip2">
-                            <rect width="40" height="40" fill="white" />
-                          </clipPath>
-                        </defs>
-                      </svg>
-                    </span>
-                    <div className="media-body">
-                      <p className="fs-14 mb-2">Weekly Progress</p>
-                      <span className="title text-black font-w600">42%</span>
-                    </div>
-                  </div>
-                </div>
-                <div className="effect bg-success"></div>
-              </div>
-            </div>
             <div className="col-sm-6">
               <div className="card avtivity-card">
                 <div className="card-body">
@@ -106,15 +115,55 @@ render () {
                         />
                       </svg>
                     </span>
-                    <div className="media-body">
-                      <p className="fs-14 mb-2">Weekly Progress</p>
-                      <span className="title text-black font-w600">42km</span>
-                    </div>
+                    <Link to="/calendar">
+                      <div className="media-body">
+                        <h3 className="fs-20">Hello,</h3>
+                        <span className="title text-black font-w600"> {this.state.me && this.state.me.firstName}</span>
+                        <p>Let's get to work!</p>
+                      </div>
+                    </Link>
                   </div>
                 </div>
                 <div className="effect bg-dark"></div>
               </div>
             </div>
+            <div className="col-sm-6">
+              <div className="card avtivity-card">
+                <div className="card-body">
+                  <div className="media align-items-center">
+                    <span className="activity-icon bgl-success mr-md-4 mr-3">
+                      <svg
+                        width="40"
+                        height="40"
+                        viewBox="0 0 40 40"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g clipPath="url(#clip2)">
+                          <path
+                            d="M14.6406 24.384C14.4639 24.1871 14.421 23.904 14.5305 23.6633C15.9635 20.513 14.4092 18.7501 14.564 11.6323C14.5713 11.2944 14.8346 10.9721 15.2564 10.9801C15.6201 10.987 15.905 11.2962 15.8971 11.6598C15.8902 11.9762 15.8871 12.2939 15.8875 12.6123C15.888 12.9813 16.1893 13.2826 16.5583 13.2776C17.6426 13.2628 19.752 12.9057 20.5684 10.4567L20.9744 9.23876C21.7257 6.9847 20.4421 4.55115 18.1335 3.91572L13.9816 2.77294C12.3274 2.31768 10.5363 2.94145 9.52387 4.32498C4.66826 10.9599 1.44452 18.5903 0.0754914 26.6727C-0.300767 28.8937 0.754757 31.1346 2.70222 32.2488C13.6368 38.5051 26.6023 39.1113 38.35 33.6379C39.3524 33.1709 40.0002 32.1534 40.0002 31.0457V19.1321C40.0002 18.182 39.5322 17.2976 38.7484 16.7664C34.5339 13.91 29.1672 14.2521 25.5723 18.0448C25.2519 18.3828 25.3733 18.937 25.8031 19.1166C27.4271 19.7957 28.9625 20.7823 30.2439 21.9475C30.5225 22.2008 30.542 22.6396 30.2654 22.9155C30.0143 23.1658 29.6117 23.1752 29.3485 22.9376C25.9907 19.9053 21.4511 18.5257 16.935 19.9686C16.658 20.0571 16.4725 20.3193 16.477 20.61C16.496 21.8194 16.294 22.9905 15.7421 24.2172C15.5453 24.6544 14.9607 24.7409 14.6406 24.384Z"
+                            fill="#27BC48"
+                          />
+                        </g>
+                        <defs>
+                          <clipPath id="clip2">
+                            <rect width="40" height="40" fill="white" />
+                          </clipPath>
+                        </defs>
+                      </svg>
+                    </span>
+                    <Link to="/workoutPlan">
+                    <div className="media-body">
+                      <h4 className="fs-20">Workouts</h4>
+                      <p><span className="title text-black font-w600">{this.state.me && this.state.me.workouts.length }</span> workouts scheduled</p>
+                    </div>
+                  </Link>
+                  </div>
+                </div>
+                <div className="effect bg-success"></div>
+              </div>
+            </div>
+
             <div className="col-sm-6">
               <div className="card avtivity-card">
                 <div className="card-body">
@@ -147,7 +196,7 @@ render () {
                     </span>
                     <div className="media-body">
                       <p className="fs-14 mb-2">Daily Cycling</p>
-                      <span className="title text-black font-w600">230 Km</span>
+                      <span className="title text-black font-w600"></span>
                     </div>
                   </div>
                 </div>
@@ -284,101 +333,7 @@ render () {
         </div>
         <div className="col-xl-12">
           <div className="row">
-            <div className="col-xl-12">
-              <div className="card">
-                <div className="card-header d-sm-flex d-block pb-0 border-0">
-                  <div className="mr-auto pr-3">
-                    <h4 className="text-black font-w600 fs-20">
-                      Recommended Meals
-                    </h4>
-                  </div>
-                  <a
-                    href="food-menu.html"
-                    className="btn btn-primary rounded d-none d-md-block"
-                  >
-                    View More
-                  </a>
-                </div>
-                <div className="card-body pt-2">
-                  <div className="testimonial-one owl-carousel">
-                    <div className="items">
-                      <div className="card text-center">
-                        <div className="card-body">
-                          <img src="images/testimonial/1.jpg" alt="" />
-                          <h5 className="fs-16 font-w500 mb-1">
-                            <a href="app-profile.html" className="text-black">
-                              Roberto Carloz
-                            </a>
-                          </h5>
-                          <p className="fs-14">Body Building Trainer</p>
-                          <div className="d-flex align-items-center justify-content-center">
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M5.09569 20C4.80437 19.9988 4.51677 19.9344 4.25273 19.8113C3.98868 19.6881 3.75447 19.5091 3.56624 19.2866C3.37801 19.0641 3.24024 18.8034 3.16243 18.5225C3.08462 18.2415 3.06862 17.9471 3.11554 17.6593L3.88905 12.8902L0.569441 9.45986C0.312024 9.19466 0.132451 8.86374 0.0503661 8.50328C-0.0317185 8.14282 -0.0131526 7.76671 0.104033 7.4161C0.221219 7.06549 0.43251 6.75388 0.714792 6.51537C0.997074 6.27685 1.33947 6.12062 1.70453 6.06376L6.20048 5.37325L8.18158 1.13817C8.34755 0.796915 8.60606 0.509234 8.92762 0.307978C9.24917 0.106721 9.6208 0 10.0001 0C10.3793 0 10.751 0.106721 11.0725 0.307978C11.3941 0.509234 11.6526 0.796915 11.8186 1.13817L13.7931 5.36719L18.2955 6.06376C18.6606 6.12062 19.003 6.27685 19.2852 6.51537C19.5675 6.75388 19.7788 7.06549 19.896 7.4161C20.0132 7.76671 20.0318 8.14282 19.9497 8.50328C19.8676 8.86374 19.688 9.19466 19.4306 9.45986L16.1144 12.8765L16.885 17.66C16.9463 18.0327 16.9014 18.4152 16.7556 18.7635C16.6097 19.1119 16.3687 19.4121 16.0602 19.6297C15.7517 19.8473 15.3882 19.9735 15.0113 19.994C14.6344 20.0144 14.2593 19.9281 13.9292 19.7451L10.0026 17.5635L6.07117 19.7451C5.77302 19.9118 5.43724 19.9996 5.09569 20Z"
-                                fill="#FFAA29"
-                              />
-                            </svg>
-                            <span className="fs-14 d-block ml-2 pr-2 mr-2 border-right text-black font-w500">
-                              4.4
-                            </span>
-                            <a
-                              href="app-profile.html"
-                              className="btn-link fs-14"
-                            >
-                              Send Request
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-xl-12">
-              <div className="card">
-                <div className="card-header d-sm-flex d-block pb-0 border-0">
-                  <div className="mr-auto pr-3">
-                    <h4 className="text-black fs-20 font-w600">
-                      Calories Chart
-                    </h4>
-                    <p className="fs-13 mb-0 text-black">
-                      Lorem ipsum dolor sit amet, consectetur
-                    </p>
-                  </div>
-                  <div className="dropdown mt-sm-0 mt-3">
-                    <button
-                      type="button"
-                      className="btn rounded btn-primary dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Weekly
-                    </button>
-                    <div className="dropdown-menu dropdown-menu-right">
-                      <a className="dropdown-item" href="#">
-                        Cycling
-                      </a>
-                      <a className="dropdown-item" href="#">
-                        Link 2
-                      </a>
-                      <a className="dropdown-item" href="#">
-                        Link 3
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-body">
-                  <div id="chartTimeline"></div>
-                </div>
-              </div>
-            </div>
+            <DashboardMeals></DashboardMeals>
           </div>
         </div>
       </div>

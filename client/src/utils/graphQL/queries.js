@@ -13,6 +13,7 @@ query me {
     age
     aboutMe
     meals {
+      _id
       mealName
       totalCalories
       ingredients
@@ -22,6 +23,7 @@ query me {
       name
       workoutType
       workoutDescription
+      startTime
     }
   }
 }
@@ -62,6 +64,7 @@ query workouts {
     name
     workoutDescription
     workoutType
+    startTime
   }
 }
 `

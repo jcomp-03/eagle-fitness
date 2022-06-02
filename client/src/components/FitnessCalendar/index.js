@@ -1,21 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "react-router-dom";
+import { useMutation, useQuery } from "@apollo/client";
+import { QUERY_ME } from "../../utils/graphQL/queries";
+import {ADD_USER_WORKOUT, ADD_WORKOUT, DELETE_USER_WORKOUT} from "../../utils/graphQL/mutations";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-
 
 function FitnessCalendar({setCurrentPage}) {
   setCurrentPage("Calendar")
   const [newWorkout, setNewWorkout] = useState({
     name: "",
     workoutType: "",
-    startTime: null,
-    workoutDescription: ""
+    workoutDescription: "",
   });
-  const [workouts, setWorkouts] = useState([]);
+
+  const [saveWorkout] = useMutation(ADD_WORKOUT);
+  const [addUserWorkout] = useMutation(ADD_USER_WORKOUT)
+  const[deleteWorkout, {error}] = useMutation(DELETE_USER_WORKOUT)
+
+  const [workouts, setWorkouts] = useState([])
+
+  const {data, loading} = useQuery(QUERY_ME, {
+    onCompleted: (data) => {
+      setWorkouts(data?.me.workouts || [])
+    }
+  });
+
+  useEffect(() => {
+    const getData = data;
+  }, []);
 
   const handleUpdateNewWorkout = (key, val) => {
     const updatedWorkout = { ...newWorkout };
@@ -23,23 +39,65 @@ function FitnessCalendar({setCurrentPage}) {
     setNewWorkout(updatedWorkout);
   };
 
-  const handleSubmitNewWorkout = () => {
-    // TODO: Handle submitting to api with GraphQL
-    setWorkouts([...workouts, newWorkout]);
+  function handleChange(e) {
+      let { name, value } = e.target;
+      setNewWorkout({
+        ...newWorkout,
+        [name]: value,
+      });
+  }
+
+  function handleDateChange(dateString) {
+    let startTime = "startTime";
     setNewWorkout({
-      name: "",
-      workoutType: "",
-      startTime: null,
-      workoutDescription: ""
+      ...newWorkout,
+      [startTime]: dateString
     });
+  }
+
+  const handleSubmitNewWorkout = async (workoutId) => {
+    const workoutToSave = workouts.find((workout) => workout.workoutId === workoutId);
+
+    try {
+      const {data} = await saveWorkout({
+        variables: {...newWorkout},
+      });
+
+      await addUserWorkout({
+        variables:{workout: data.addWorkout._id}
+      })
+
+
+      if (!data) {
+        throw new Error('something went wrong!');
+      }
+
+      setWorkouts([newWorkout, ...workouts]);
+      setNewWorkout({
+        name: "",
+        workoutType: "",
+        workoutDescription: "",
+        startTime: null
+      });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handleDeleteWorkout = (i) => {
-    // TODO: Handle submitting delete request to api
-    const updatedWorkouts = [...workouts];
-    updatedWorkouts.splice(i);
-    setWorkouts(updatedWorkouts);
-  };
+  async function handleWorkoutDelete(event) {
+    // console.log(event.target.name)
+    const workoutId = event.target.name
+    try {
+      await deleteWorkout({
+        variables: {
+          workout: workoutId
+        }
+      })
+      window.location.reload()
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div className="content-body">
@@ -57,7 +115,7 @@ function FitnessCalendar({setCurrentPage}) {
 
         <div className="row">
           <div className="col-xl-4">
-            <div className="card">
+            <div className="card calendar-siderbar">
               <div className="card-body">
                 <h4 className="card-intro-title">Add a Workout</h4>
                 <div>
@@ -65,18 +123,16 @@ function FitnessCalendar({setCurrentPage}) {
                     <input
                       type="text"
                       value={newWorkout.name}
-                      onChange={(e) => {
-                        handleUpdateNewWorkout("name", e.target.value);
-                      }}
+                      onChange={handleChange}
+                      name="name"
                       className="form-control input-default "
                       placeholder="Workout Name..."
                     />
                   </div>
                   <textarea
                     value={newWorkout.workoutDescription}
-                    onChange={(e) => {
-                      handleUpdateNewWorkout("workoutDescription", e.target.value);
-                    }}
+                    onChange={handleChange}
+                    name="workoutDescription"
                     className="form-control input-default "
                     placeholder="Workout Description..."
                   />
@@ -84,9 +140,8 @@ function FitnessCalendar({setCurrentPage}) {
                     <select
                       className="form-select type-dropdown"
                       value={newWorkout.workoutType}
-                      onChange={(e) => {
-                        handleUpdateNewWorkout("workoutType", e.target.value);
-                      }}
+                      onChange={handleChange}
+                      name={"workoutType"}
                     >
                       <option disabled value="">
                         {" "}
@@ -101,11 +156,10 @@ function FitnessCalendar({setCurrentPage}) {
                     <label>Start Time:</label>
                     <DatePicker
                       showTimeSelect
+                      name="startTime"
                       dateFormat="MMMM d, yyyy h:mm aa"
                       selected={newWorkout.startTime}
-                      onChange={(date) => {
-                        handleUpdateNewWorkout("startTime", date);
-                      }}
+                      onChange={handleDateChange}
                     />
                   </div>
                   <button
@@ -124,36 +178,41 @@ function FitnessCalendar({setCurrentPage}) {
           <div className="Sample col-8">
             <div className="calendar-container">
               <main className="calendar_container_content">
-                <div className="card-header d-sm-flex flex-wrap d-block border-0 mb-4">
-                  <div className="mr-auto pr-3 mb-3">
-                    <h4 className="text-black fs-20">Plan List</h4>
-                    <p className="fs-13 mb-0 text-black">Lorem ipsum dolor sit amet, consectetur</p>
+                <div className="card-header d-sm-flex flex-wrap d-block mb-1">
+                  <div className="mr-auto pr-3">
+                    <h4 className="text-black fs-20">Planned Workouts</h4>
+                    {workouts.length > 0 ? <p className="fs-13 mb-0 text-black">See your workouts!</p> : <p className="fs-13 mb-0 text-black">You should add a workout!</p>}
                   </div>
                 </div>
-                {workouts.map((w, i) => {
+                {workouts.slice(0, 4).map((w, i) => {
 
                   return (
-                    <div className= "card p-3 d-flex container" key={i}>
+                    <div className= "card p-2 d-flex" key={i}>
                       <div className= "row">
                         <div className="col-3 d-flex">
-                         <h4 className="date"> {moment(w.startTime).calendar()} </h4>
+                         <h5 className="date"> {moment(w.startTime).calendar()} </h5>
                         </div>
-                        <div className="col-6">
-                          <h3> {w.name} </h3>
+                        <div className="col-3">
+                          <h5> {w.name} </h5>
                           {w.workoutDescription}
                         </div>
                         <div className="col-3">
                           {w.workoutType}
                         </div>
-                      </div>
-                      <div className="row">
-                        <div className="col d-flex justify-content-end">
-                          <button className= "btn btn-danger" onClick={handleDeleteWorkout}>delete  <FontAwesomeIcon icon="fa-solid fa-trash" /></button>
+                        <div className="col-3">
+                          <button className= "btn btn-danger btn-sm"  name={w._id} onClick={handleWorkoutDelete}>delete  <FontAwesomeIcon icon="fa-solid fa-trash" /></button>
                         </div>
                       </div>
                     </div>
                   );
                 })}
+                <div className="row">
+                  <div className="col d-flex justify-content-center pb-4">
+                    <Link to="/workoutPlan">
+                      <button className= "btn btn-event btn-primary"> View More Here </button>
+                    </Link>
+                  </div>
+                </div>
               </main>
             </div>
           </div>
@@ -162,12 +221,4 @@ function FitnessCalendar({setCurrentPage}) {
     </div>
   );
 }
-{/*
-// for your consideration :D
-<div className="card font-weight-bold p-3" key={i}>
-    Name: {w.name} <br></br>
-    Type: {w.workoutType} <br></br>
-    Date: {moment(w.startTime).calendar()} <br></br>
-    <button className="btn btn-sm w-50 my-3 bg-danger text-light" onClick={handleDeleteWorkout}>delete</button>
-</div> */}
 export default FitnessCalendar;
