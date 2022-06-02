@@ -90,7 +90,7 @@ const typeDefs = gql`
     ): Workout
 
     deleteUserWorkout(workout: ID!): User
-    addUserWorkout(userId: ID!, workout: ID!): User
+    addUserWorkout(workout: ID!): User
 
     updateMilesRunOrCycled(
       milesRun: [Int]
