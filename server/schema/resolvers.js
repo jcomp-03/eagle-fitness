@@ -4,10 +4,15 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    me: async (parent,__, context) => {
+    me: async (parent, __, context) => {
       if (context.user) {
         // Must use findById to find a single entry
-        const userData = await User.findById({ _id: context.user._id });
+        const userData = await User.findById({ _id: context.user._id })
+        .populate('milesRun')
+        .populate('cumulativeMilesRun')
+        .populate('milesCycled')
+        .populate('cumulativeMilesCycled');
+
         if (!userData) {
           throw new Error("No user found!");
         }
@@ -16,7 +21,11 @@ const resolvers = {
       throw new AuthenticationError("You must be logged in!");
     },
     us: async () => {
-      return User.find();
+      return User.find()
+      .populate('milesRun')
+      .populate('cumulativeMilesRun')
+      .populate('milesCycled')
+      .populate('cumulativeMilesCycled');
     },
     meals: async () => {
       return Meal.find();
@@ -30,7 +39,8 @@ const resolvers = {
   Mutation: {
     addUser: async (parent, args) => {
       const newUser = await User.create(args);
-      return newUser;
+      const token = signToken(newUser);
+      return { token, newUser };
     },
     login: async (parent, args) => {
       const user = await User.findOne({ email: args.email });
@@ -47,6 +57,19 @@ const resolvers = {
 
       return { token, user };
     },
+    updateUser: async (parent, args, context) => {
+      console.log(args);
+      if (context.user) {
+        const updatedUser = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          args,
+          { new: true, runValidators: true }
+        );
+
+        return updatedUser;
+      }
+      throw new AuthenticationError("Must be logged in!");
+    },
     // MUST be done in the order: addMeal -> addUserMeal
     addMeal: async (parent, args) => {
       const newMeal = await Meal.create(args);
@@ -56,10 +79,10 @@ const resolvers = {
       if (context.user) {
         const meal = await Meal.findById({ _id: args.meal });
         if (!meal) {
-          throw new Error("This meal does not exist inthe database");
+          throw new Error("This meal does not exist in the database");
         }
         const newUserMeal = await User.findByIdAndUpdate(
-          { _id: args.userId },
+          { _id: context.user._id },
           { $addToSet: { meals: meal } },
           { new: true, runValidators: true }
         );
@@ -67,22 +90,64 @@ const resolvers = {
       }
       throw new AuthenticationError("You must be logged in!");
     },
-    addWorkout: async (parent, args) => {
-      const newWorkout = await Workout.create(args);
-      return newWorkout;
+     addWorkout: async (parent, args) => {
+       const newWorkout = await Workout.create(args);
+       return newWorkout;
     },
     addUserWorkout: async (parent, args, context) => {
       if (context.user) {
+        // const newWorkout = await Workout.create(args);
         const workout = await Workout.findById({ _id: args.workout });
         const newUserWorkout = await User.findByIdAndUpdate(
-          { _id: args.userId },
+          { _id: context.user._id },
           { $addToSet: { workouts: workout } },
           { new: true, runValidators: true }
         );
+        console.log(workout);
         return newUserWorkout;
       }
       throw new AuthenticationError("You must be logged in!");
     },
+    deleteUserWorkout: async (parent, args, context) => {
+      if (context.user) {
+        const updatedUser = User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pull: {workouts: {_id: args.workout}} },
+          {new: true, runValidators: true}
+        );
+        return updatedUser
+      }
+      throw new AuthenticationError("You must be logged in!");
+    },
+    deleteUserMeal: async (parent, args, context) => {
+      if (context.user) {
+        const updatedUser = User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pull: {meals: {_id: args.meal}} },
+          {new: true, runValidators: true}
+        );
+        return updatedUser
+      }
+      throw new AuthenticationError("You must be logged in!");
+    },
+    updateMilesRunOrCycled: async (parent, args, context) => {
+      console.log(args);
+
+      if (context.user) {
+        const updatedUser = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { 
+            $push: { milesRun: args.milesRun, milesCycled: args.milesCycled }
+          },
+          { new: true }
+        );
+
+        // console.log(updatedUser.getCumulativeMilesRun)
+
+        return updatedUser;
+      }
+      throw new AuthenticationError("Must be logged in!");
+    }
   },
 };
 

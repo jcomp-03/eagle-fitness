@@ -1,0 +1,17 @@
+<<<<<<< HEAD
+@mixin clearfix() {
+  &::after {
+    display: block;
+    clear: both;
+    content: "";
+  }
+}
+=======
+@mixin clearfix() {
+  &::after {
+    display: block;
+    clear: both;
+    content: "";
+  }
+}
+>>>>>>> dev-lp

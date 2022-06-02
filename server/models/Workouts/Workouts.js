@@ -13,6 +13,10 @@ const WorkoutSchema = new Schema(
     workoutDescription: {
       type: String,
       required: true,
+    },
+    startTime: {
+      type: String,
+      required: false
     }
   }
 )

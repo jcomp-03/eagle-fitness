@@ -3,12 +3,20 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
   type User {
     _id: ID
+    createdAt: String
     firstName: String
     lastName: String
     username: String
+    workoutPersona: String
+    age: Int
     email: String
+    aboutMe: String
     meals: [Meal]
     workouts: [Workout]
+    milesRun: [Int]
+    milesCycled: [Int]
+    cumulativeMilesRun: [Int]
+    cumulativeMilesCycled: [Int]
   }
 
   type Meal {
@@ -22,11 +30,13 @@ const typeDefs = gql`
     _id: ID
     name: String
     workoutType: String
-    workoutDescription: String
+    workoutDescription: String,
+    startTime: String,
+    # durationMinutes: Int
   }
 
   type Query {
-    me(_id: ID!): User
+    me: User
     us: [User]
     meal(_id: ID!): Meal
     meals: [Meal]
@@ -44,11 +54,23 @@ const typeDefs = gql`
       firstName: String!
       lastName: String!
       username: String!
-      email: String!
       password: String!
-    ): User
+      workoutPersona: String!
+      age: Int!
+      email: String!
+      aboutMe: String!
+    ): Auth
 
     login(email: String!, password: String!): Auth
+
+    updateUser(
+      firstName: String
+      lastName: String
+      username: String
+      email: String
+      password: String
+
+    ): User
 
     addMeal(
       mealName: String!
@@ -58,15 +80,24 @@ const typeDefs = gql`
 
     # Must add meal before UserMeal
 
-    addUserMeal(userId: ID!, meal: ID!): User
+    addUserMeal(meal: ID!): User
 
     addWorkout(
       name: String!
       workoutType: String!
       workoutDescription: String!
+      startTime: String!
     ): Workout
 
-    addUserWorkout(userId: ID!, workout: ID!): User
+    deleteUserWorkout(workout: ID!): User
+    addUserWorkout(workout: ID!): User
+
+    updateMilesRunOrCycled(
+      milesRun: [Int]
+      milesCycled: [Int]
+    ): User
+
+    deleteUserMeal(meal: ID!): User
   }
 `;
 
