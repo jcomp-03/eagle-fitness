@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/eagle-fitness', {
-  // useNewUrlParser: true,
-  // useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
   // useCreateIndex: true,
   // useFindAndModify: false
 });
