@@ -1,14 +1,13 @@
 import React from "react";
-// import ApexCharts from "apexcharts";
 import Chart from "react-apexcharts";
 
 function WorkoutStatisticsCycling({ chartData }) {
   // data values to plot and name
   const series = [
     {
-      type: "line", // render line chart for cumulative miles
-      name: "Cumul. Miles",
-      data: [1,2,3,4,5,6],
+      type: "line",
+      name: "Miles Cycled",
+      data: chartData.cyclingData,
     }
   ];
 
@@ -25,16 +24,17 @@ function WorkoutStatisticsCycling({ chartData }) {
     },
     xaxis: {
       categories: [
-        "Wk1",
-        "Wk2",
-        "Wk3",
-        "Wk4",
-        "Wk5",
-        "Wk6",
-        "Wk7",
-        "Wk8",
-        "Wk9",
-      ],
+        "Pt1",
+        "Pt2",
+        "Pt3",
+        "Pt4",
+        "Pt5",
+        "Pt6",
+        "Pt7",
+        "Pt8",
+        "Pt9",
+        "Pt10"
+      ]
     },
     yaxis: [
       // this object is for cumulative miles cycled
@@ -53,7 +53,6 @@ function WorkoutStatisticsCycling({ chartData }) {
           },
         },
         title: {
-          text: series[0].name,
           style: {
             // color: "#FF1654",
             fontSize: "16px",
@@ -90,7 +89,7 @@ function WorkoutStatisticsCycling({ chartData }) {
     },
     stroke: {
       curve: "smooth",
-      colors: "#FF3282",
+      colors: "#A02CFA",
     },
     markers: {
       size: 3,
@@ -103,7 +102,7 @@ function WorkoutStatisticsCycling({ chartData }) {
   };
 
   return (
-    <div className="mx-1 col-3 col-xl-4 col-lg-5 border border-info border-2">
+    <div className="col-12 col-lg-6 col-xl-5">
     <div className="card">
         <div className="card-header pb-0 border-0">
           <span className="p-3 mr-3 rounded bg-secondary">
@@ -135,7 +134,7 @@ function WorkoutStatisticsCycling({ chartData }) {
           <div className="mr-auto pr-3">
             <h4 className="text-black fs-20">Cycling</h4>
             <p className="fs-13 mb-0 text-black">
-              Lorem ipsum dolor sit amet, consectetur
+              Your history of cycling!
             </p>
           </div>
         </div>

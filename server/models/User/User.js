@@ -74,40 +74,52 @@ const UserSchema = new Schema(
   }
 );
 
-// a virtual which returns an array of grouped sums of miles
+// a virtual which truncates length of milesRun
 UserSchema.virtual("getMilesRun").get(function () {
-  if (this.milesRun.length > 25) {
-    const truncatedArray = this.milesRun.slice(this.milesRun.length - 25);
+  if (this.milesRun.length > 10) {
+    const truncatedArray = this.milesRun.slice(this.milesRun.length - 10);
     this.milesRun = [...truncatedArray];
   }
-  // we're going to divvy up the instances of miles into groups of 5; store the remainder
-  const remainder = this.milesRun.length % 5;
-  let remainingItemsSummed = 0;
-  // group last few values into one variable
-  if (remainder) {
-    remainingItemsSummed = myArray
-      .slice(myArray.length - remainder)
-      .reduce((prev, curr) => prev + curr);
-  }
-  // some variables to use in our for loop below
-  let groupedArray = [];
-  let runningSum = 0;
-  // every 5 values, sum those values and push the sum to groupedArray; reset the runningSum
-  for (let i = 0; i < myArray.length - remainder + 1; i++) {
-    runningSum += myArray[i];
-    if ((i + 1) % 5 === 0) {
-      groupedArray.push(runningSum);
-      runningSum = 0;
-    }
-  }
-  // lastly, if remainder is not zero, push the remainder as a final item to groupedArray
-  remainder ? groupedArray.push(remainingItemsSummed) : ""
-  // set milesRun to the groupedArray
-  this.milesRun = [...groupedArray]
+  // console.log("***this.milesRun is***", this.milesRun);
   return this.milesRun;
-});
-// im thinking just to make this simple, just have a middleware function to slice the miles run
+  // we're going to divvy up the instances of miles into groups of 5; store the remainder
+  // const remainder = this.milesRun.length % 5;
+  // let remainingItemsSummed = 0;
+  // group last few values into one variable
+  // if (remainder) {
+  //   remainingItemsSummed = myArray
+  //     .slice(myArray.length - remainder)
+  //     .reduce((prev, curr) => prev + curr);
+  // }
+  // some variables to use in our for loop below
+  // let groupedArray = [];
+  // let runningSum = 0;
+  // every 5 values, sum those values and push the sum to groupedArray; reset the runningSum
+  // for (let i = 0; i < myArray.length - remainder + 1; i++) {
+  //   runningSum += myArray[i];
+  //   if ((i + 1) % 5 === 0) {
+  //     groupedArray.push(runningSum);
+  //     runningSum = 0;
+  //   }
+  // }
+  // lastly, if remainder is not zero, push the remainder as a final item to groupedArray
+  // remainder ? groupedArray.push(remainingItemsSummed) : ""
+  // set milesRun to the groupedArray
+  // this.milesRun = [...groupedArray]
 
+});
+
+// a virtual which truncates length of milesCycled
+UserSchema.virtual("getMilesCycled").get(function () {
+  if (this.milesCycled.length > 10) {
+    const truncatedArray = this.milesCycled.slice(this.milesCycled.length - 10);
+    this.milesCycled = [...truncatedArray];
+  }
+  console.log("***this.milesCycled is***", this.milesCycled);
+  return this.milesCycled;
+
+
+});
 
 // a virtual which returns an array of grouped sums of miles
 // UserSchema.virtual("getMilesRun").get(function () {
@@ -192,7 +204,5 @@ UserSchema.methods.isCorrectPassword = async function (password) {
 };
 
 const User = model("user", UserSchema);
-
-// console.log(User.getCumulativeMilesRun())
 
 module.exports = User;
