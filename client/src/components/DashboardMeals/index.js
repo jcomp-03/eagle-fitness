@@ -67,7 +67,7 @@ export function DashboardMeals() {
         }
       })
 
-      console.log(data)
+      // console.log(data)
 
       await addUserMeal({
         variables: {
