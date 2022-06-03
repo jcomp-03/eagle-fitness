@@ -1,5 +1,3 @@
-// WORK IN PROGRESS
-
 import React, { useState } from "react";
 import auth from "../../utils/auth";
 // import ApexCharts from "apexcharts";
@@ -16,29 +14,27 @@ function WorkoutStatistics({ setCurrentPage }) {
     window.location.replace("/login");
   }
 
-  setCurrentPage("Workout Statistics");
+  // setCurrentPage("Workout Statistics");
 
   // use useState hook to set initial formState to empty object
   const [formState, setFormState] = useState({
-    milesRun: null,
-    milesCycled: null,
+    milesRun: "",
+    milesCycled: "",
   });
-  //console.log("*****formState*****", formState);
+  // console.log("*****formState*****", formState);
 
   // use useQuery hook to make a query request
   const { loading, data } = useQuery(QUERY_ME);
   const me = data?.me;
+  // console.log(data);
   // console.log(me);
 
   // set the data for the charts here
   const [chartData, setChartData] = useState({
-    runningData: [],
-    cyclingData: [],
+    runningData: me.milesRun,
+    cyclingData: me.milesCycled,
   });
-  // setChartData({
-  //   // me.miles
-  // })
-  console.log(chartData)
+  // console.log("*****chartData*****", chartData)
 
   // create JavaScript function updateMiles that wraps around
   // the mutation updatMilesRunOrCycled
@@ -46,35 +42,34 @@ function WorkoutStatistics({ setCurrentPage }) {
 
   // if there's any changes to the form fields, handle them here
   const handleChange = (event) => {
-    setFormState({ ...formState, [event.target.name]: parseInt(event.target.value) });
+    setFormState({
+      ...formState,
+      [event.target.name]: parseInt(event.target.value),
+    });
   };
   // console.log("******formState after setFormState*****", formState);
 
   // function to run when form is submitted
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // event.persist();
     console.log("*****Inside handleFormSubmit*****", formState);
-    
+
     try {
-      const {data} = await updateMiles({
-        variables: { ...formState }
+      const { data } = await updateMiles({
+        variables: { ...formState },
       });
-      console.log("*****updatedUserInfo*****", data);
-      // setChartData()
+      console.log("*****handleFormSubmit:data*****", data);
       setChartData({
         runningData: data.updateMilesRunOrCycled.milesRun,
         cyclingData: data.updateMilesRunOrCycled.milesCycled,
-      })
-      
+      });
     } catch (event) {
       console.error(event);
       setFormState({
-        milesRun: null,
-        milesCycled: null,
+        milesRun: "",
+        milesCycled: "",
       });
     }
-
   };
 
   if (loading) {
@@ -98,14 +93,11 @@ function WorkoutStatistics({ setCurrentPage }) {
             </li>
           </ol>
         </div>
-        <h3 className="mb-1">
+        <h3 className="mb-1 text-center">
           Welcome back, {me.firstName}, have any recent cardio workouts you wish
-          to add to your stats? Enter them below.{" "}
+          to add to your stats? Enter them below.
         </h3>
-        <form
-          onSubmit={handleFormSubmit}
-          className="d-flex flex-column border border-danger border-2"
-        >
+        <form onSubmit={handleFormSubmit} className="d-flex flex-column align-items-center text-center m-5">
           <div className="form-group col-12 col-md-8 col-lg-6">
             {/* move the asteric to the beginning of each word */}
             <label className="mb-1 text-purple">
@@ -117,7 +109,7 @@ function WorkoutStatistics({ setCurrentPage }) {
               type="number"
               className="form-control"
               placeholder="i.e. 6"
-              defaultValue={formState.milesRun}
+              value={formState.milesRun}
             ></input>
           </div>
           <div className="form-group col-12 col-md-8 col-lg-6">
@@ -130,27 +122,21 @@ function WorkoutStatistics({ setCurrentPage }) {
               type="number"
               className="form-control"
               placeholder="i.e. 15"
-              defaultValue={formState.milesCycled}
+              value={formState.milesCycled}
             ></input>
           </div>
           <div className="text-center mt-4">
             <button type="submit" className="btn bg-primary text-success">
-              Enter miles to my stats
+              Submit miles
             </button>
           </div>
           {error && (
             <p className="text-danger">There was a problem with your data</p>
           )}
         </form>
-        <div className="d-flex border border-2 border-warning mt-2 justify-content-sm-around">
-          <WorkoutStatisticsRunning
-            chartData={chartData}
-            // setChartData={setChartData}
-          />
-          <WorkoutStatisticsCycling
-            chartData={chartData}
-            // setChartData={setChartData}
-          />
+        <div className="d-flex row mt-3 justify-content-sm-around">
+          <WorkoutStatisticsRunning chartData={chartData} />
+          <WorkoutStatisticsCycling chartData={chartData} />
         </div>
       </div>
     </div>

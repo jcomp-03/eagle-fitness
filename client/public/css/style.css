@@ -383,6 +383,10 @@ th {
   text-align: inherit;
   text-align: -webkit-match-parent; }
 
+.top {
+  z-index: 999999999999999999999;
+}
+
 label {
   display: inline-block;
   margin-bottom: 0.5rem; }
