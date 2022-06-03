@@ -69,11 +69,11 @@ export function MealPlan({ setCurrentPage }) {
                                 </a>
                               </h4>
                               <p className="text-dark font-weight-bold fs-20">Ingredients: </p>
-                              <span className="pr-3 d-flex">
+                              <div className="pr-3">
                                 {meal.ingredients.map((ingredient) => (
                                   <div><p className="mx-1">* {ingredient}</p></div>
                                 ))}
-                              </span>
+                              </div>
                               {/* <div className="form-check">
                                 <input
                                   className="form-check-input"

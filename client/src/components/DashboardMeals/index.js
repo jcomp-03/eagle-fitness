@@ -12,7 +12,7 @@ export function DashboardMeals() {
 
   // function getRecepies() {
   useEffect(()=> {
-    fetch("https://api.spoonacular.com/recipes/complexSearch?fillIngredients=true&maxCalories=100&number=10&apiKey=c8e56dca2ebb42b780c7528cbcb33a8")
+    fetch("https://api.spoonacular.com/recipes/complexSearch?fillIngredients=true&maxCalories=100&number=10&apiKey=c8e56dca2ebb42b780c7528cbcb33a8a")
     .then(response => {
       if (response.ok) {
         return response.json()

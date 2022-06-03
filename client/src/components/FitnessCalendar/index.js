@@ -114,7 +114,7 @@ function FitnessCalendar({setCurrentPage}) {
         </div>
 
         <div className="row">
-          <div className="col-xl-4">
+          <div className="col-12">
             <div className="card calendar-siderbar">
               <div className="card-body">
                 <h4 className="card-intro-title">Add a Workout</h4>
@@ -175,7 +175,7 @@ function FitnessCalendar({setCurrentPage}) {
               </div>
             </div>
           </div>
-          <div className="Sample col-8">
+          <div className="Sample col-12">
             <div className="calendar-container">
               <main className="calendar_container_content">
                 <div className="card-header d-sm-flex flex-wrap d-block mb-1">
@@ -189,18 +189,18 @@ function FitnessCalendar({setCurrentPage}) {
                   return (
                     <div className= "card p-2 d-flex" key={i}>
                       <div className= "row">
-                        <div className="col-3 d-flex">
+                        <div className="col-4 d-flex">
                          <h5 className="date"> {moment(w.startTime).calendar()} </h5>
                         </div>
-                        <div className="col-3">
-                          <h5> {w.name} </h5>
-                          {w.workoutDescription}
-                        </div>
-                        <div className="col-3">
+                        <div className="col-4">
                           {w.workoutType}
                         </div>
                         <div className="col-3">
                           <button className= "btn btn-danger btn-sm"  name={w._id} onClick={handleWorkoutDelete}>delete  <FontAwesomeIcon icon="fa-solid fa-trash" /></button>
+                        </div>
+                        <div className="col-12">
+                          <h5> {w.name} </h5>
+                          {w.workoutDescription}
                         </div>
                       </div>
                     </div>
