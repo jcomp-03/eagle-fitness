@@ -80,16 +80,17 @@ const typeDefs = gql`
 
     # Must add meal before UserMeal
 
-    addUserMeal(userId: ID!, meal: ID!): User
+    addUserMeal(meal: ID!): User
 
     addWorkout(
       name: String!
       workoutType: String!
       workoutDescription: String!
+      startTime: String!
     ): Workout
 
     deleteUserWorkout(workout: ID!): User
-    addUserWorkout(userId: ID!, workout: ID!): User
+    addUserWorkout(workout: ID!): User
 
     updateMilesRunOrCycled(
       milesRun: [Int]

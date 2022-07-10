@@ -93,11 +93,11 @@ function WorkoutStatistics({ setCurrentPage }) {
             </li>
           </ol>
         </div>
-        <h3 className="mb-1">
+        <h3 className="mb-1 text-center">
           Welcome back, {me.firstName}, have any recent cardio workouts you wish
           to add to your stats? Enter them below.
         </h3>
-        <form onSubmit={handleFormSubmit} className="d-flex flex-column">
+        <form onSubmit={handleFormSubmit} className="d-flex flex-column align-items-center text-center m-5">
           <div className="form-group col-12 col-md-8 col-lg-6">
             {/* move the asteric to the beginning of each word */}
             <label className="mb-1 text-purple">
@@ -134,7 +134,7 @@ function WorkoutStatistics({ setCurrentPage }) {
             <p className="text-danger">There was a problem with your data</p>
           )}
         </form>
-        <div className="d-flex row border border-2 border-warning mt-3 justify-content-sm-around">
+        <div className="d-flex row mt-3 justify-content-sm-around">
           <WorkoutStatisticsRunning chartData={chartData} />
           <WorkoutStatisticsCycling chartData={chartData} />
         </div>

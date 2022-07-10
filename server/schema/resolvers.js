@@ -83,10 +83,10 @@ const resolvers = {
       if (context.user) {
         const meal = await Meal.findById({ _id: args.meal });
         if (!meal) {
-          throw new Error("This meal does not exist inthe database");
+          throw new Error("This meal does not exist in the database");
         }
         const newUserMeal = await User.findByIdAndUpdate(
-          { _id: args.userId },
+          { _id: context.user._id },
           { $addToSet: { meals: meal } },
           { new: true, runValidators: true }
         );
@@ -123,6 +123,17 @@ const resolvers = {
       }
       throw new AuthenticationError("You must be logged in!");
     },
+    deleteUserMeal: async (parent, args, context) => {
+      if (context.user) {
+        const updatedUser = User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pull: {meals: {_id: args.meal}} },
+          {new: true, runValidators: true}
+        );
+        return updatedUser
+      }
+      throw new AuthenticationError("You must be logged in!");
+    },
     updateMilesRunOrCycled: async (parent, args, context) => {
       console.log(args);
 
@@ -142,18 +153,7 @@ const resolvers = {
         return updatedUser;
       }
       throw new AuthenticationError("Must be logged in!");
-    },
-    deleteUserMeal: async (parent, args, context) => {
-      if (context.user) {
-        const updatedUser = User.findByIdAndUpdate(
-          { _id: context.user._id },
-          { $pull: { meals: { _id: args.meal } } },
-          { new: true, runValidators: true }
-        );
-        return updatedUser;
-      }
-      throw new AuthenticationError("You must be logged in!");
-    },
+    }
   },
 };
 

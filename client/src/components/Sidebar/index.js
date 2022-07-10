@@ -38,10 +38,12 @@ function Sidebar({currentPage}) {
             </Link>
           </li>
         </ul>
+        <Link to="/calendar">
         <div className="add-menu-sidebar">
           <img src="images/calendar.png" alt="" className="mr-3" />
           <p className="font-w500 mb-0">Create Workout Plan Now</p>
         </div>
+        </Link>
         <div className="copyright">
           <p>
             <strong>Eagle Fitness</strong> © 2022 All Rights
@@ -50,6 +52,15 @@ function Sidebar({currentPage}) {
           <p>
             Made with <span className="heart"></span> by Alex, Abraham, Megan, and James
           </p>
+          <form action="https://www.paypal.com/donate" method="post" target="_top">
+            <input type="hidden" name="business" value="P9TV4GMNPPV84" />
+            <input type="hidden" name="no_recurring" value="0" />
+            <input type="hidden" name="item_name" value="For the site development" />
+            <input type="hidden" name="currency_code" value="USD" />
+            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+            <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
+          </form>
+
         </div>
       </div>
     </div>

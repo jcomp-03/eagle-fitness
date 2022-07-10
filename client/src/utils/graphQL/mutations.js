@@ -65,8 +65,8 @@ export const ADD_MEAL = gql`
   }
 `;
 export const ADD_USER_MEAL = gql`
-  mutation addUserMeal($userId: ID!, $meal: ID!) {
-    addUserMeal(userId: $userId, meal: $meal) {
+  mutation addUserMeal($meal: ID!) {
+    addUserMeal(meal: $meal) {
       username
       email
       meals {
@@ -82,16 +82,19 @@ export const ADD_WORKOUT = gql`
     $name: String!
     $workoutDescription: String!
     $workoutType: String!
+    $startTime: String!
   ) {
     addWorkout(
       name: $name
       workoutDescription: $workoutDescription
       workoutType: $workoutType
+      startTime: $startTime
     ) {
       _id
       name
       workoutType
       workoutDescription
+      startTime
     }
   }
 `;

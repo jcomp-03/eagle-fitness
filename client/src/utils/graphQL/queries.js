@@ -23,6 +23,7 @@ query me {
       name
       workoutType
       workoutDescription
+      startTime
     }
     milesRun
     milesCycled
@@ -67,6 +68,7 @@ query workouts {
     name
     workoutDescription
     workoutType
+    startTime
   }
 }
 `

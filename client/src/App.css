@@ -56,10 +56,3 @@
 .date {
   color: #0B2A97;
 }
-
-/* removes up/down arrows on inputs with type=number*/
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
