@@ -17,25 +17,30 @@
     <br  />
     <br  />
 </div>
-
+***               ¦                       ***               ¦
+---               ¦               ->      ---               ¦
+___               ¦                       ___               ¦
+md_rule(char = "-", n = 5, space = TRUE)
+-----
+ -----
+  -----
 <!-- TABLE OF CONTENTS -->
-## Table of Contents
-### [Under the Hood](#Under-the-Hood)
-### [The App's Purpose](#The-Apps-Purpose)
-### [Installation](#Installation)
-### [Usage](#Usage)
-### [Contact](#Contact)
-<br/>
-  <ol>
-      <li><a  href="#Under-the-Hood">Under The Hood</a></li>
+<details>
+<summary>
+<h2>TABLE OF CONTENTS</h2>
+</summary>
+  <ul>
+      <li><h3><a  href="#Under-the-Hood">Under The Hood</a></h3></li>
       <li><a  href="#what-was-done">The App's Purpose</a></li>
       <li><a  href="#instalation">Installation</a></li>
       <li><a  href="#usage">Usage</a></li>
       <li><a  href="#contact">Contact</a></li>
-  </ol>
+  </ul>
+</details>
+
 
 <!-- ABOUT THE PROJECT -->
-# Under The Hood
+# Under the Hood
 This app features a React.js-powered frontend-facing UI, with Bootstrap CSS framework for mobile-first, responsive design. The API is consumed thanks to a Node.js\/Express.js\/GraphQL backend which powers all the routes. The database features NoSQL-based MongoDB paired with Mongoose object-document mapper (ODM) for storing database documents and creating schema and models. React-date-picker is implemented for the calendar, and Apex charts for displaying workout statistics.
 App built with the following:
  
@@ -96,9 +101,9 @@ Happy painting!
 ### Abraham Aguirre  
 
 
-Project Link: [https://github.com/Alexnj1/eagle-fitness](https://github.com/jcomp-03/eagle-fitness)
-<!-- MARKDOWN LINKS & IMAGES -->
+Project Link: [https://github.com/jcomp-03/eagle-fitness](https://github.com/jcomp-03/eagle-fitness)
 
+<!-- MARKDOWN LINKS & IMAGES -->
 [product-screenshot1]: ./client/public/images/screenshot_1.png
 
 
